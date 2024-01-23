@@ -1,19 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Todo.Application.Services;
-using ToDo.Shared.Common;
-using ToDo.Shared.Requests.UpdateTodoEntry;
+using ToDo.Shared.Requests;
 
 namespace ToDo.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]/v1/[action]")]
-
     public class ToDoController : ControllerBase
     {
         private readonly ILogger<ToDoController> _logger;
 
-        private readonly ITodoManager _todoManager; 
-        public ToDoController(ILogger<ToDoController> logger, ITodoManager todoManager)
+        private readonly ITodoService _todoManager; 
+        public ToDoController(ILogger<ToDoController> logger, ITodoService todoManager)
         {
             _logger = logger;
             _todoManager = todoManager; 
@@ -21,7 +19,7 @@ namespace ToDo.Server.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateEntry(TodoEntryDto todoEntryDto)
+        public async Task<IActionResult> CreateTodoEntryAsync(TodoEntryCreateOrUpdateDto todoEntryDto)
         {
             var result = await _todoManager.CreateTodoEntryAsync(todoEntryDto);
 
@@ -31,20 +29,47 @@ namespace ToDo.Server.Controllers
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateTodoEntryAsync(string name, DateTime dateTime, [FromBody] TodoEntryUpdateDto updatedTodoEntry)
+        public async Task<IActionResult> UpdateTodoEntryAsync(string name, DateTime date, [FromBody] TodoEntryCreateOrUpdateDto updatedTodoEntry)
         {
-            var result = await _todoManager.UpdateEntry(name, dateTime, updatedTodoEntry);
+            var result = await _todoManager.UpdateTodoEntryAsync(name, date, updatedTodoEntry);
 
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEntries()
+        public async Task<IActionResult> GetAllTodoEntriesAsync()
         {
+            var result = await _todoManager.GetAllTodoEntriesAsync();
 
-            var result = await _todoManager.GetAllEntriesAsync();
+            return Ok(result);
+        }        
+        
+        [HttpGet]
+        public async Task<IActionResult> GetTodoEntryById(uint id)
+        {
+            var result = await _todoManager.GetAllTodoEntriesAsync();
 
             return Ok(result);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTodoEntryByIdAsync(uint id)
+        {
+            var result = await _todoManager.DeleteTodoEntryAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTodoEntryByNameAndDateAsync(string name, DateTime date)
+        {
+            var result = await _todoManager.DeleteTodoEntryAsync(name, date);
+
+            return Ok(result);
+        }        
+        
+
+
+
     }
 }

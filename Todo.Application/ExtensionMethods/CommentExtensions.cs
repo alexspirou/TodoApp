@@ -1,93 +1,44 @@
 ﻿using Todo.Models.Entities;
-using ToDo.Shared.Common;
-using ToDo.Shared.Data;
-using ToDo.Shared.Requests.UpdateTodoEntry;
+using ToDo.Shared.Requests;
+using ToDo.Shared.Responses;
 
 namespace Todo.Application.ExtensionMethods
 {
     public static class CommentExtensions
     {
-        #region CommentDtos 
+        #region CommentRequestDtos 
         /// <summary>
-        /// From Comment to CommentDto
+        /// From Comment to CommentRequestDto
         /// </summary>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public static CommentDto ToCommentDto(this Comment comment)
+        public static CommentRequestDto ToCommentRequestDto(this Comment comment)
         {
-            return new CommentDto
+            return new CommentRequestDto
             {   
                 Content = comment.Content,
-                Date = comment.Date,    
+                Date = comment.Date,  
+                Id = comment.Id,
             };
         }
         /// <summary>
-        /// From CommentList to CommentDtoList
+        /// From CommentList to CommentRequestDtoList
         /// </summary>
         /// <param name="commentList"></param>
         /// <returns></returns>
-
-        public static List<CommentDto> ToCommentDtoList(this IEnumerable<Comment> commentList)
+        public static List<CommentRequestDto> ToCommentRequestDtoList(this IEnumerable<Comment> commentList)
         {
-            return commentList?.Select(i => i.ToCommentDto()).ToList() ?? new List<CommentDto>();
+            return commentList?.Select(i => i.ToCommentRequestDto()).ToList() ?? new List<CommentRequestDto>();
         }
-        /// <summary>
-        /// From Comment to CommentUpdateDto
-        /// </summary>
-        /// <param name="comment"></param>
-        /// <returns></returns>
-        #endregion
-
-        #region CommentUpdateDto
-        public static CommentUpdateDto ToCommentUpdateDto(this Comment comment)
-        {
-            return new CommentUpdateDto
-            {
-                Content = comment.Content,
-            };
-        }
-        /// <summary>
-        /// From CommentList to CommentUpdateDtoList
-        /// </summary>
-        /// <param name="commentList"></param>
-        /// <returns></returns>
-        public static List<CommentUpdateDto> ToCommentUpdateDtoList(this IEnumerable<Comment> commentList)
-        {
-            return commentList?.Select(i => i.ToCommentUpdateDto()).ToList() ?? new List<CommentUpdateDto>();
-        }
-
-
         #endregion
 
         #region Comments
         /// <summary>
-        /// From CommentDto to Comment
+        /// From CommentUpdateOrCreateDto to Comment
         /// </summary>
         /// <param name="itemDto"></param>
         /// <returns></returns>
-        public static Comment ToComment(this CommentDto itemDto)
-        {
-            return new Comment
-            {
-                Content = itemDto.Content,
-                Date = itemDto.Date,
-            };
-        }
-        /// <summary>
-        /// From CommentDtoList to CommentList
-        /// </summary>
-        /// <param name="commentDtoList"></param>
-        /// <returns></returns>
-        public static List<Comment> ToCommentList(this IEnumerable<CommentDto> commentDtoList)
-        {
-            return commentDtoList?.Select(i => i.ToComment()).ToList() ?? new List<Comment>();
-        }
-        /// <summary>
-        /// From CommentUpdateDto to Comment
-        /// </summary>
-        /// <param name="itemDto"></param>
-        /// <returns></returns>
-        public static Comment ToComment(this CommentUpdateDto itemDto)
+        public static Comment ToComment(this CommentCreateOrUpdateDto itemDto)
         {
             return new Comment
             {
@@ -95,11 +46,11 @@ namespace Todo.Application.ExtensionMethods
             };
         }
         /// <summary>
-        /// From CommentList to CommmentUpdateDto
+        /// From CommmentUpdateDtoList to CommmentList
         /// </summary>
         /// <param name="commentDtoList"></param>
         /// <returns></returns>
-        public static List<Comment> ToCommentList(this IEnumerable<CommentUpdateDto> commentDtoList)
+        public static List<Comment> ToCommentList(this IEnumerable<CommentCreateOrUpdateDto> commentDtoList)
         {
             return commentDtoList?.Select(i => i.ToComment()).ToList() ?? new List<Comment>();
         }

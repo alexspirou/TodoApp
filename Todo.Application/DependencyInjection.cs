@@ -11,7 +11,9 @@ namespace Todo.Application
 
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<ITodoManager, TodoManager>();
+            services.AddScoped<ITodoService, TodoService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IItemService, ItemService>();
 
 
             return services;

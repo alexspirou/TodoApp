@@ -1,4 +1,5 @@
-﻿using Todo.EFCore.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Todo.EFCore.Context;
 using Todo.EFCore.Repositories.Common;
 using Todo.Models.Entities;
 
@@ -17,5 +18,25 @@ namespace Todo.EFCore.Repositories
             return item;
         }
 
+        public async Task<List<Item>> GetAllItems()
+        {
+            var result =
+                await Context.Item
+                    .AsNoTracking()
+                    .Include(i => i.Comment)
+                    .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<Item> GetItemById(uint id)
+        {
+            var result =
+               await Context.Item
+                .Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
+
+            return result ?? new Item();
+        }
     }
 }

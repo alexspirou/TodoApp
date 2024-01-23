@@ -1,114 +1,60 @@
 ﻿using Todo.Models.Entities;
-using ToDo.Shared.Data;
+using ToDo.Shared.Responses;
 
 namespace Todo.Application.ExtensionMethods
 {
     public static class ItemExtensions
     {
-        #region ItemDtos
         /// <summary>
-        /// From Item to ItemDto
+        /// From Item to ItemRequestDto
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static ItemDto ToItemDto(this Item item)
+        public static ItemRequestDto ToItemRequestDto(this Item item)
         {
-            return new ItemDto
+            return new ItemRequestDto
             {
+                Id = item.Id,   
                 Date = item.Date,
                 IsDone = item.IsDone,
                 Title = item.Title,
-                Comment = item?.Comment?.ToCommentDtoList()
+                Comment = item?.Comment?.ToCommentRequestDtoList()
             };
         }
         /// <summary>
-        /// From ItemList to ItemDtoList
+        /// From ItemList to ItemRequestDtoList
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns></returns>
-        public static List<ItemDto> ToItemDtoList(this IEnumerable<Item> itemList)
+        public static List<ItemRequestDto> ToItemRequestDtoList(this IEnumerable<Item> itemList)
         {
-            return itemList?.Select(i => i.ToItemDto()).ToList() ?? new List<ItemDto>();
-        }
-        /// <summary>
-        /// From Item to ItemDtoUpdateDto
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public static ItemDtoUpdateDto ToItemUpdateDto(this Item item)
-        {
-            return new ItemDtoUpdateDto
-            {
-                IsDone = item.IsDone,
-                Title = item.Title,
-                Comments = item?.Comment?.ToCommentUpdateDtoList()
-            };
-        }
-        /// <summary>
-        /// From ItemList to ItemDtoUpdateDtoList
-        /// </summary>
-        /// <param name="itemList"></param>
-        /// <returns></returns>
-        public static List<ItemDtoUpdateDto> ToItemUpdateDtoList(this IEnumerable<Item> itemList)
-        {
-            return itemList?.Select(i => i.ToItemUpdateDto()).ToList() ?? new List<ItemDtoUpdateDto>();
+            return itemList?.Select(i => i.ToItemRequestDto()).ToList() ?? new List<ItemRequestDto>();
         }
 
-
-        #endregion
-
-        #region Item
-        /// <summary>
-        /// From ItemDto to List
-        /// </summary>
-        /// <param name="itemDto"></param>
-        /// <returns></returns>
-        public static Item ToItem(this ItemDto itemDto)
-        {
-            return new Item
-            {
-                Title = itemDto.Title,
-                Date = itemDto.Date,    
-                IsDone = itemDto.IsDone,
-                Comment = itemDto?.Comment?.ToCommentList()
-            };
-        }
 
         /// <summary>
         /// From ItemDtoUpdateDto to Item
         /// </summary>
         /// <param name="itemDto"></param>
         /// <returns></returns>
-        public static Item ToItem(this ItemDtoUpdateDto itemDto)
+        public static Item ToItem(this ItemDtoCreateUpdateDto itemDto)
         {
             return new Item
             {
                 Title = itemDto.Title,
                 IsDone = itemDto.IsDone,
-
             };
         }
-        /// <summary>
-        /// From ItemDtoList to ItemList
-        /// </summary>
-        /// <param name="itemDtoList"></param>
-        /// <returns></returns>
-        public static List<Item> ToItemList(this IEnumerable<ItemDto> itemDtoList)
-        {
-            return itemDtoList?.Select(i => i.ToItem()).ToList() ?? new List<Item>();
-        }
+
         /// <summary>
         /// From ItemDtoUpdateDtoList to ItemList
         /// </summary>
         /// <param name="itemDtoList"></param>
         /// <returns></returns>
-        public static List<Item> ToItemList(this IEnumerable<ItemDtoUpdateDto> itemDtoList)
+        public static List<Item> ToItemList(this IEnumerable<ItemDtoCreateUpdateDto> itemDtoList)
         {
             return itemDtoList?.Select(i => i.ToItem()).ToList() ?? new List<Item>();
         }
 
-
-
-        #endregion
     }
 }
