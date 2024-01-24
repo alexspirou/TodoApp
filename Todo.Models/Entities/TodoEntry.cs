@@ -3,8 +3,8 @@
     public class TodoEntry
     {
         public uint Id { get; set; }
-        public DateTime Date { get; set; }
         public string Name { get; set; } = null!;
+        public DateTime Date { get; set; }
         public ICollection<Item>? Item { get; set; } = new List<Item>();
     }
 }

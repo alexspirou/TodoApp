@@ -21,11 +21,12 @@ namespace Todo.EFCore.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                // TODO : remove connection string from here
-                optionsBuilder.UseSqlServer("Data Source=ML-5015Q04\\SQLEXPRESS;Initial Catalog=ToDoApp;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
-            }
+            optionsBuilder.UseSqlServer("Data Source=ML-PC28CXTP\\SQLEXPRESS;Initial Catalog=Todo.Db;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    // TODO : remove connection string from here
+            //}
 
             base.OnConfiguring(optionsBuilder);
         }

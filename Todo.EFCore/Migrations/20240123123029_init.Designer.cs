@@ -12,8 +12,8 @@ using Todo.EFCore.Context;
 namespace Todo.EFCore.Migrations
 {
     [DbContext(typeof(ToDoAppDbContext))]
-    [Migration("20240122112831_Init")]
-    partial class Init
+    [Migration("20240123123029_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
