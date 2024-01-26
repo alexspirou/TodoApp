@@ -5,6 +5,6 @@ namespace Todo.Web.Services.Interfaces
 {
     public interface ITodoEntriesService
     {
-        public Task<List<TodoEntryRequestDto>> GetAllTodoEntriesAsync();
+        public Task<List<TodoEntryResponseDto>> GetAllTodoEntriesAsync();
     }
 }

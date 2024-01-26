@@ -13,11 +13,11 @@ namespace Todo.Application.Services
         {
             _commentRepository = commentRepository;
         }
-        public async Task<CommentRequestDto> CreateCommentAsync(uint itemId,CommentCreateOrUpdateDto newComment)
+        public async Task<CommentResponsetDto> CreateCommentAsync(uint itemId,CommentCreateOrUpdateDto newComment)
         {
             if (newComment is null)
             {
-                return new CommentRequestDto();
+                return new CommentResponsetDto();
             }
 
             var tempComment = newComment.ToComment();
@@ -28,13 +28,13 @@ namespace Todo.Application.Services
             return comment.ToCommentRequestDto();
         }
 
-        public async Task<CommentRequestDto> DeleteCommentAsync(uint id)
+        public async Task<CommentResponsetDto> DeleteCommentAsync(uint id)
         {
             var commentForDelete = await _commentRepository.GetCommentByIdAsync(id);
 
             if (commentForDelete == null)
             {
-                return new CommentRequestDto();
+                return new CommentResponsetDto();
             }
 
             await _commentRepository.DeleteAsync(commentForDelete);
@@ -42,25 +42,25 @@ namespace Todo.Application.Services
             return commentForDelete.ToCommentRequestDto();
         }
 
-        public async Task<List<CommentRequestDto>> GetAllCommentsAsync()
+        public async Task<List<CommentResponsetDto>> GetAllCommentsAsync()
         {
             var comments = await _commentRepository.GetAllCommentsAsync();
             return comments.ToCommentRequestDtoList();
         }
 
-        public async Task<CommentRequestDto> GetCommentById(uint id)
+        public async Task<CommentResponsetDto> GetCommentById(uint id)
         {
             var comment = await _commentRepository.GetCommentByIdAsync(id);
             return comment.ToCommentRequestDto();
         }
 
-        public async Task<CommentRequestDto> UpdateCommentAsync(uint id, CommentCreateOrUpdateDto updatedComment)
+        public async Task<CommentResponsetDto> UpdateCommentAsync(uint id, CommentCreateOrUpdateDto updatedComment)
         {
             var commentForUpdate = await _commentRepository.GetCommentByIdAsync(id);
 
             if (commentForUpdate == null)
             {
-                return new CommentRequestDto();
+                return new CommentResponsetDto();
             }
             // Update comment
             commentForUpdate.Content = updatedComment.Content;

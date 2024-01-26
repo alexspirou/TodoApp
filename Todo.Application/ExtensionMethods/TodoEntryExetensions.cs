@@ -12,9 +12,9 @@ namespace Todo.Application.ExtensionMethods
         /// </summary>
         /// <param name="todoEntry"></param>
         /// <returns></returns>
-        public static TodoEntryRequestDto ToTodoEntryRequestDto(this TodoEntry todoEntry)
+        public static TodoEntryResponseDto ToTodoEntryRequestDto(this TodoEntry todoEntry)
         {
-            return new TodoEntryRequestDto
+            return new TodoEntryResponseDto
             {
                 Id = todoEntry.Id,  
                 DateTime = todoEntry.Date,
@@ -28,9 +28,9 @@ namespace Todo.Application.ExtensionMethods
         /// </summary>
         /// <param name="todoEntryDtoList"></param>
         /// <returns></returns>
-        public static List<TodoEntryRequestDto> ToTodoEntryDtoList(this IEnumerable<TodoEntry> todoEntryDtoList)
+        public static List<TodoEntryResponseDto> ToTodoEntryDtoList(this IEnumerable<TodoEntry> todoEntryDtoList)
         {
-            return todoEntryDtoList?.Select(i => i.ToTodoEntryRequestDto()).ToList() ?? new List<TodoEntryRequestDto>();
+            return todoEntryDtoList?.Select(i => i.ToTodoEntryRequestDto()).ToList() ?? new List<TodoEntryResponseDto>();
         }
 
 

@@ -15,7 +15,6 @@ namespace Todo.Application
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IItemService, ItemService>();
 
-
             return services;
         }
     }

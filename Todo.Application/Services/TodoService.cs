@@ -15,38 +15,38 @@ namespace Todo.Application.Services
             _toDoEntryRepository = toDoEntryRepository;
         }
 
-        public async Task<TodoEntryRequestDto> CreateTodoEntryAsync(TodoEntryCreateOrUpdateDto? todoEntryDto)
+        public async Task<TodoEntryResponseDto> CreateTodoEntryAsync(TodoEntryCreateOrUpdateDto newTodoEntryRequest)
         {
-            if (todoEntryDto is null)
+            if (newTodoEntryRequest is null)
             {
-                return new TodoEntryRequestDto();
+                return new TodoEntryResponseDto();
             }
 
-            var tempToDoEnty = todoEntryDto.ToTodoEntry();
+            var tempToDoEnty = newTodoEntryRequest.ToTodoEntry();
             tempToDoEnty.Date = DateTime.Now;
-            var todoEntry = await _toDoEntryRepository.CreateToDoEntryAsync(tempToDoEnty);
+            var newTodoEntry = await _toDoEntryRepository.CreateTodoEntryAsync(tempToDoEnty);
 
-            return todoEntry.ToTodoEntryRequestDto();
+            return newTodoEntry.ToTodoEntryRequestDto();
 
         }
-        public async Task<TodoEntryRequestDto> GetTodoEntryById(uint id)
+        public async Task<TodoEntryResponseDto> GetTodoEntryById(uint id)
         {
             var result = await _toDoEntryRepository.GetByIdAsync(id);
             return result.ToTodoEntryRequestDto();
         }
-        public async Task<List<TodoEntryRequestDto>> GetAllTodoEntriesAsync()
+        public async Task<List<TodoEntryResponseDto>> GetAllTodoEntriesAsync()
         {
             var result = await _toDoEntryRepository.GetToDoEntriesAsync();
             return result.ToTodoEntryDtoList();
         }
 
-        public async Task<TodoEntryRequestDto> UpdateTodoEntryAsync(string name, DateTime dateTime, TodoEntryCreateOrUpdateDto updatedTodoEntryDto)
+        public async Task<TodoEntryResponseDto> UpdateTodoEntryAsync(string name, DateTime dateTime, TodoEntryCreateOrUpdateDto updatedTodoEntryDto)
         {
             var todoEntryForUpdate = await _toDoEntryRepository.GetTodoEntryByNameAndDateAsync(name, dateTime);
 
             if (todoEntryForUpdate == null)
             {
-                return new TodoEntryRequestDto();
+                return new TodoEntryResponseDto();
             }
 
             todoEntryForUpdate.Name = updatedTodoEntryDto.Name;
@@ -55,13 +55,13 @@ namespace Todo.Application.Services
             return todoEntryForUpdate.ToTodoEntryRequestDto();
         }
 
-        public async Task<TodoEntryRequestDto> DeleteTodoEntryAsync(string name, DateTime dateTime)
+        public async Task<TodoEntryResponseDto> DeleteTodoEntryAsync(string name, DateTime dateTime)
         {
             var todoEntryForUpdate = await _toDoEntryRepository.GetTodoEntryByNameAndDateAsync(name, dateTime);
 
             if (todoEntryForUpdate == null)
             {
-                return new TodoEntryRequestDto();
+                return new TodoEntryResponseDto();
             }
 
             await _toDoEntryRepository.DeleteAsync(todoEntryForUpdate);
@@ -70,13 +70,13 @@ namespace Todo.Application.Services
 
         }
 
-        public async Task<TodoEntryRequestDto> DeleteTodoEntryAsync(uint id)
+        public async Task<TodoEntryResponseDto> DeleteTodoEntryAsync(uint id)
         {
             var todoEntryForUpdate = await _toDoEntryRepository.GetByIdAsync(id);
 
             if (todoEntryForUpdate == null)
             {
-                return new TodoEntryRequestDto();
+                return new TodoEntryResponseDto();
             }
 
             await _toDoEntryRepository.DeleteAsync(todoEntryForUpdate);

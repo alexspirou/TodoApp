@@ -5,6 +5,6 @@
         public uint Id { get; set; }
         public string Name { get; set; } = null!;
         public DateTime Date { get; set; }
-        public ICollection<Item>? Item { get; set; } = new List<Item>();
+        public IEnumerable<Item>? Item { get; set; } = new List<Item>();
     }
 }

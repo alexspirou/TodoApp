@@ -1,6 +1,6 @@
 ﻿namespace ToDo.Shared.Responses
 {
-    public class CommentRequestDto
+    public class CommentResponsetDto
     {
         public uint Id { get; set; }
         public DateTime Date { get; set; }

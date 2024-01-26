@@ -5,7 +5,7 @@ namespace Todo.Web.Components.Pages
 {
     public partial class Home : ComponentBase
     {
-        private List<TodoEntryRequestDto>? _todoEntries { get; set; }
+        private List<TodoEntryResponseDto>? _todoEntries { get; set; }
 
 
 

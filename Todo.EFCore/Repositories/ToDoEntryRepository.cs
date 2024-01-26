@@ -11,7 +11,7 @@ namespace Todo.EFCore.Repositories
         {
         }
 
-        public async Task<TodoEntry> CreateToDoEntryAsync(TodoEntry entry)
+        public async Task<TodoEntry> CreateTodoEntryAsync(TodoEntry entry)
         {
             Context.TodoEntry.Add(entry);
             await SaveAsync();

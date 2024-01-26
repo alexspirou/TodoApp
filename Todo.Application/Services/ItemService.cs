@@ -14,63 +14,63 @@ namespace Todo.Application.Services
             _itemRepository = itemRepository;
         }
 
-        public async Task<ItemRequestDto> CreateItemAsync(uint toEntryId,ItemDtoCreateUpdateDto newItem)
+        public async Task<ItemResponseDto> CreateItemAsync(uint toEntryId,ItemDtoCreateUpdateDto newItemRequest)
         {
-            if (newItem is null)
+            if (newItemRequest is null)
             {
-                return new ItemRequestDto();
+                return new ItemResponseDto();
             }
 
-            var tempItem = newItem.ToItem ();
+            var tempItem = newItemRequest.ToItem();
             tempItem.Date = DateTime.Now;
             tempItem.ToDoEntryId = toEntryId;
-            var item = await _itemRepository.CreateItemAsync(tempItem);
+            var newItem = await _itemRepository.CreateItemAsync(tempItem);
 
-            return item.ToItemRequestDto();
+            return newItem.ToItemRequestDto();
         }
 
-        public async Task<ItemRequestDto> DeleteItemAsync(uint id)
+        public async Task<ItemResponseDto> DeleteItemAsync(uint id)
         {
-            var itemForDelete = await _itemRepository.GetItemByIdAsync(id);
+            var itemToDelete = await _itemRepository.GetItemByIdAsync(id);
 
-            if (itemForDelete == null)
+            if (itemToDelete == null)
             {
-                return new ItemRequestDto();
+                return new ItemResponseDto();
             }
 
-            await _itemRepository.DeleteAsync(itemForDelete);
+            await _itemRepository.DeleteAsync(itemToDelete);
 
-            return itemForDelete.ToItemRequestDto();
+            return itemToDelete.ToItemRequestDto();
         }
 
-        public async Task<List<ItemRequestDto>> GetAllItemsAsync()
+        public async Task<List<ItemResponseDto>> GetAllItemsAsync()
         {
             var items = await _itemRepository.GetAllItemsAsync();
             return items.ToItemRequestDtoList();
         }
 
-        public async Task<ItemRequestDto> GetItemById(uint id)
+        public async Task<ItemResponseDto> GetItemByIdAsync(uint id)
         {
             var item = await _itemRepository.GetItemByIdAsync(id);
 
             return item.ToItemRequestDto();
         }
 
-        public async Task<ItemRequestDto> UpdateItemAsync(uint id, ItemDtoCreateUpdateDto newItem)
+        public async Task<ItemResponseDto> UpdateItemAsync(uint id, ItemDtoCreateUpdateDto newItemRequest)
         {
-            var itemForUdpate = await _itemRepository.GetItemByIdAsync(id);
+            var itemToUpdate = await _itemRepository.GetItemByIdAsync(id);
 
-            if (itemForUdpate == null)
+            if (itemToUpdate == null)
             {
-                return new ItemRequestDto();
+                return new ItemResponseDto();
             }
             // Update item
-            itemForUdpate.Title = newItem.Title;
-            itemForUdpate.IsDone = newItem.IsDone;
+            itemToUpdate.Title = newItemRequest.Title;
+            itemToUpdate.IsDone = newItemRequest.IsDone;
 
-            await _itemRepository.UpdateAsync(itemForUdpate);
+            await _itemRepository.UpdateAsync(itemToUpdate);
 
-            return itemForUdpate.ToItemRequestDto();
+            return itemToUpdate.ToItemRequestDto();
         }
     }
 }

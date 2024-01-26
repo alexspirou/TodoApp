@@ -5,10 +5,10 @@ namespace Todo.Application.Services
 {
     public interface ICommentService
     {
-        Task<CommentRequestDto> CreateCommentAsync(uint itemId, CommentCreateOrUpdateDto newComment);
-        Task<List<CommentRequestDto>> GetAllCommentsAsync();
-        Task<CommentRequestDto> GetCommentById(uint id);
-        Task<CommentRequestDto> UpdateCommentAsync(uint id, CommentCreateOrUpdateDto updatedComment);
-        Task<CommentRequestDto> DeleteCommentAsync(uint id);
+        Task<CommentResponsetDto> CreateCommentAsync(uint itemId, CommentCreateOrUpdateDto newComment);
+        Task<List<CommentResponsetDto>> GetAllCommentsAsync();
+        Task<CommentResponsetDto> GetCommentById(uint id);
+        Task<CommentResponsetDto> UpdateCommentAsync(uint id, CommentCreateOrUpdateDto updatedComment);
+        Task<CommentResponsetDto> DeleteCommentAsync(uint id);
     }
 }

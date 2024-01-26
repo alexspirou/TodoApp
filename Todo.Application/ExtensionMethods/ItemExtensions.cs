@@ -10,9 +10,9 @@ namespace Todo.Application.ExtensionMethods
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static ItemRequestDto ToItemRequestDto(this Item item)
+        public static ItemResponseDto ToItemRequestDto(this Item item)
         {
-            return new ItemRequestDto
+            return new ItemResponseDto
             {
                 Id = item.Id,   
                 Date = item.Date,
@@ -26,9 +26,9 @@ namespace Todo.Application.ExtensionMethods
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns></returns>
-        public static List<ItemRequestDto> ToItemRequestDtoList(this IEnumerable<Item> itemList)
+        public static List<ItemResponseDto> ToItemRequestDtoList(this IEnumerable<Item> itemList)
         {
-            return itemList?.Select(i => i.ToItemRequestDto()).ToList() ?? new List<ItemRequestDto>();
+            return itemList?.Select(i => i.ToItemRequestDto()).ToList() ?? new List<ItemResponseDto>();
         }
 
 

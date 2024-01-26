@@ -12,20 +12,20 @@ namespace Todo.Web.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<List<TodoEntryRequestDto>> GetAllTodoEntriesAsync()
+        public async Task<List<TodoEntryResponseDto>> GetAllTodoEntriesAsync()
         {
-            var todoEntries = new List<TodoEntryRequestDto>();
+            var todoEntries = new List<TodoEntryResponseDto>();
             try
             {
                 var apiCall = @"https://localhost:7055/api/ToDo/v1/GetAllTodoEntries";
-                todoEntries = await _httpClient.GetFromJsonAsync<List<TodoEntryRequestDto>>(apiCall);
+                todoEntries = await _httpClient.GetFromJsonAsync<List<TodoEntryResponseDto>>(apiCall);
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine(ex.Message);
             }
      
-            return todoEntries ?? new List<TodoEntryRequestDto>();
+            return todoEntries ?? new List<TodoEntryResponseDto>();
         }
 
 

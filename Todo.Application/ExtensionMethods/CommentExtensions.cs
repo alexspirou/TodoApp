@@ -12,9 +12,9 @@ namespace Todo.Application.ExtensionMethods
         /// </summary>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public static CommentRequestDto ToCommentRequestDto(this Comment comment)
+        public static CommentResponsetDto ToCommentRequestDto(this Comment comment)
         {
-            return new CommentRequestDto
+            return new CommentResponsetDto
             {   
                 Content = comment.Content,
                 Date = comment.Date,  
@@ -26,9 +26,9 @@ namespace Todo.Application.ExtensionMethods
         /// </summary>
         /// <param name="commentList"></param>
         /// <returns></returns>
-        public static List<CommentRequestDto> ToCommentRequestDtoList(this IEnumerable<Comment> commentList)
+        public static List<CommentResponsetDto> ToCommentRequestDtoList(this IEnumerable<Comment> commentList)
         {
-            return commentList?.Select(i => i.ToCommentRequestDto()).ToList() ?? new List<CommentRequestDto>();
+            return commentList?.Select(i => i.ToCommentRequestDto()).ToList() ?? new List<CommentResponsetDto>();
         }
         #endregion
 

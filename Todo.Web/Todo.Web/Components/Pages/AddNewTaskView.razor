@@ -3,10 +3,62 @@
 @attribute [Route(NavigationRoutes.AddNewTask)]
 
 
-<PageTitle>Add New Task</PageTitle>
+<h2 class="title">Add New Task</h2>
 
-<div id="main">
-    <main>
-        <h3>AddNewTaskView</h3>
-    </main>
+
+<div class="newTaskContainer">
+    <form @onsubmit="AddTask">
+
+        <div class="my-todos">
+            <h2 class="todo-item-title">My Tasks</h2>
+            <ul class="todo-items">
+                <li class="active-item">Programming</li>
+            </ul>
+
+            @* Tasks *@
+            <form @onsubmit="AddTask">
+                <input type="text"
+                       class="new-item"
+                       placeholder="new task name" />
+                <button class="button-task">+</button>
+                <p></p>
+            </form>
+
+            @* Items *@
+
+            <div class="todo-item-list">
+                <div class="todo-header">
+                    <h2 class="todo-title">Programming </h2>
+                </div>
+            </div>
+
+
+            <div class="tasks-body">
+                <div class="items"></div>
+                <div class="items"></div>
+                <input type="checkbox" id="item-1" />
+                <label for="item-1">
+                    <span class="custom-checkbox">
+                        <span>.net core</span>
+                    </span>
+                </label>
+
+                <form @onsubmit="AddTask">
+                    <input type="text"
+                           class="new-item"
+                           placeholder="new item" />
+                    <button class="button-item">+</button>
+                </form>
+            </div>
+            @* Delete *@
+            <div class="delete-stuff">
+                <button class="button-delete">Clear completed tasks </button>
+                <button class="button-delete">Delete list</button>
+            </div>
+
+        </div>
+
+    </form>
+
 </div>
+
