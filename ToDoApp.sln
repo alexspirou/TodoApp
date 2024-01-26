@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{BB6A1509-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{E566BA57-F7BB-4837-86E0-BECC7FB72E65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Web", "Todo.Web\Todo.Web\Todo.Web.csproj", "{53EFB01C-D7CC-4341-B268-B95CBAF4EEF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Web", "Todo.Web\Todo.Web\Todo.Web.csproj", "{53EFB01C-D7CC-4341-B268-B95CBAF4EEF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

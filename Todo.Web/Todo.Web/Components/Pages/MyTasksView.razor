@@ -1,0 +1,55 @@
+﻿@using ToDo.Shared.Responses
+@using Todo.Web.Common;
+@using Todo.Web.Services;
+@using Todo.Web.Services.Interfaces
+
+@inject ITodoEntriesService TodoEntriesService
+@attribute [Route(NavigationRoutes.MyTasks)]
+
+<PageTitle>My Tasks</PageTitle>
+
+<div id="main">
+    <div class="todoContainer">
+
+        @if (_toDoEntries != null && _toDoEntries.Any())
+        {
+            @foreach (var entry in _toDoEntries)
+            {
+                <div class="card">
+                    <p>@entry.Name</p>
+                    <p>@entry.Id</p>
+
+                    @if (entry.Items != null && entry.Items.Any())
+                    {
+                        <p>Items:</p>
+                        @foreach (var item in entry.Items)
+                        {
+                            <p>@item.Title</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>No items available.</p>
+                    }
+                    <p>Created: @entry.DateTime</p>
+
+                </div>
+            }
+        }
+        else
+        {
+            <p class="no-entries">No TODO entries available.</p>
+        }
+    </div>
+</div>
+
+@code
+{
+    private List<TodoEntryRequestDto>? _toDoEntries;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _toDoEntries = await TodoEntriesService.GetAllTodoEntriesAsync();
+        Console.WriteLine("Hereeeeeeeeeeeeeeee");
+    }
+}

@@ -18,7 +18,7 @@ namespace Todo.EFCore.Repositories
             return entry;
         }
 
-        public async Task<List<TodoEntry>> GetToDoEntries()
+        public async Task<List<TodoEntry>> GetToDoEntriesAsync()
         {
             var result = await Context.TodoEntry
                 .AsNoTracking()
@@ -28,7 +28,7 @@ namespace Todo.EFCore.Repositories
             return result;
         }       
         
-        public async Task<TodoEntry> GetTodoEntryByNameAndDate(string name, DateTime date)
+        public async Task<TodoEntry> GetTodoEntryByNameAndDateAsync(string name, DateTime date)
         {
             var result = await Context.TodoEntry
                 .Include(t => t.Item).ThenInclude(i => i.Comment)

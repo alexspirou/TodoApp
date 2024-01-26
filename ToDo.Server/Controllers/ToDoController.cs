@@ -47,7 +47,7 @@ namespace ToDo.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTodoEntryById(uint id)
         {
-            var result = await _todoManager.GetAllTodoEntriesAsync();
+            var result = await _todoManager.GetTodoEntryById(id);
 
             return Ok(result);
         }

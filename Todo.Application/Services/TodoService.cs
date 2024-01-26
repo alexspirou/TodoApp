@@ -36,13 +36,13 @@ namespace Todo.Application.Services
         }
         public async Task<List<TodoEntryRequestDto>> GetAllTodoEntriesAsync()
         {
-            var result = await _toDoEntryRepository.GetToDoEntries();
+            var result = await _toDoEntryRepository.GetToDoEntriesAsync();
             return result.ToTodoEntryDtoList();
         }
 
         public async Task<TodoEntryRequestDto> UpdateTodoEntryAsync(string name, DateTime dateTime, TodoEntryCreateOrUpdateDto updatedTodoEntryDto)
         {
-            var todoEntryForUpdate = await _toDoEntryRepository.GetTodoEntryByNameAndDate(name, dateTime);
+            var todoEntryForUpdate = await _toDoEntryRepository.GetTodoEntryByNameAndDateAsync(name, dateTime);
 
             if (todoEntryForUpdate == null)
             {
@@ -57,7 +57,7 @@ namespace Todo.Application.Services
 
         public async Task<TodoEntryRequestDto> DeleteTodoEntryAsync(string name, DateTime dateTime)
         {
-            var todoEntryForUpdate = await _toDoEntryRepository.GetTodoEntryByNameAndDate(name, dateTime);
+            var todoEntryForUpdate = await _toDoEntryRepository.GetTodoEntryByNameAndDateAsync(name, dateTime);
 
             if (todoEntryForUpdate == null)
             {

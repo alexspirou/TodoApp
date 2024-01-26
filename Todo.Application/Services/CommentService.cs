@@ -28,9 +28,9 @@ namespace Todo.Application.Services
             return comment.ToCommentRequestDto();
         }
 
-        public async Task<CommentRequestDto> DeleteComment(uint id)
+        public async Task<CommentRequestDto> DeleteCommentAsync(uint id)
         {
-            var commentForDelete = await _commentRepository.GetCommentById(id);
+            var commentForDelete = await _commentRepository.GetCommentByIdAsync(id);
 
             if (commentForDelete == null)
             {
@@ -42,21 +42,21 @@ namespace Todo.Application.Services
             return commentForDelete.ToCommentRequestDto();
         }
 
-        public async Task<List<CommentRequestDto>> GetAllComments()
+        public async Task<List<CommentRequestDto>> GetAllCommentsAsync()
         {
-            var comments = await _commentRepository.GetAllComments();
+            var comments = await _commentRepository.GetAllCommentsAsync();
             return comments.ToCommentRequestDtoList();
         }
 
         public async Task<CommentRequestDto> GetCommentById(uint id)
         {
-            var comment = await _commentRepository.GetCommentById(id);
+            var comment = await _commentRepository.GetCommentByIdAsync(id);
             return comment.ToCommentRequestDto();
         }
 
-        public async Task<CommentRequestDto> UpdateComment(uint id, CommentCreateOrUpdateDto updatedComment)
+        public async Task<CommentRequestDto> UpdateCommentAsync(uint id, CommentCreateOrUpdateDto updatedComment)
         {
-            var commentForUpdate = await _commentRepository.GetCommentById(id);
+            var commentForUpdate = await _commentRepository.GetCommentByIdAsync(id);
 
             if (commentForUpdate == null)
             {

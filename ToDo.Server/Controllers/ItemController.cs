@@ -32,7 +32,7 @@ namespace ToDo.Server.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateItemAsync(uint id, [FromBody] ItemDtoCreateUpdateDto newItem)
         {
-            var result = await _itemService.UpdateItem(id, newItem);
+            var result = await _itemService.UpdateItemAsync(id, newItem);
 
             return Ok(result);
         }
@@ -40,7 +40,7 @@ namespace ToDo.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllItemsAsync()
         {
-            var result = await _itemService.GetAllItems();
+            var result = await _itemService.GetAllItemsAsync();
 
             return Ok(result);
         }
@@ -48,7 +48,7 @@ namespace ToDo.Server.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteItemAsync(uint id)
         {
-            var result = await _itemService.DeleteItem(id);
+            var result = await _itemService.DeleteItemAsync(id);
 
             return Ok(result);
         }

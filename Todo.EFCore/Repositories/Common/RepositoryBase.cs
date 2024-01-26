@@ -21,11 +21,6 @@ namespace Todo.EFCore.Repositories.Common
             get { return _entities ?? (_entities = Context.Set<T>()); }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await Entities.ToListAsync();
-        }
-
         public async Task<T> GetByIdAsync(uint id)
         {
             T? entry = await Entities.FindAsync(id);
@@ -62,7 +57,7 @@ namespace Todo.EFCore.Repositories.Common
         {
             if (entity is null)
             {
-                throw new ArgumentNullException("Entity");  // Should I throw exception here?
+                throw new ArgumentNullException("Entity is null");  // Should I throw exception here?
             }
             Entities.Remove(entity);
             await SaveAsync();

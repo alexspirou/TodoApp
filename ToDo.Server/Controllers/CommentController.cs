@@ -28,15 +28,15 @@ namespace ToDo.Server.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCommentAsync(uint id, [FromBody] CommentCreateOrUpdateDto updatedComment)
         {
-            var result = await _commentService.UpdateComment(id, updatedComment);
+            var result = await _commentService.UpdateCommentAsync(id, updatedComment);
 
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllComments()
+        public async Task<IActionResult> GetAllCommentsAsync()
         {
-            var result = await _commentService.GetAllComments();
+            var result = await _commentService.GetAllCommentsAsync();
 
             return Ok(result);
         }
@@ -44,7 +44,7 @@ namespace ToDo.Server.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCommentAsync(uint id)
         {
-            var result = await _commentService.DeleteComment(id);
+            var result = await _commentService.DeleteCommentAsync(id);
 
             return Ok(result);
         }

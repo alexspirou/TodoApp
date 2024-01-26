@@ -18,7 +18,7 @@ namespace Todo.EFCore.Repositories
             return item;
         }
 
-        public async Task<List<Item>> GetAllItems()
+        public async Task<List<Item>> GetAllItemsAsync()
         {
             var result =
                 await Context.Item
@@ -29,7 +29,7 @@ namespace Todo.EFCore.Repositories
             return result;
         }
 
-        public async Task<Item> GetItemById(uint id)
+        public async Task<Item> GetItemByIdAsync(uint id)
         {
             var result =
                await Context.Item

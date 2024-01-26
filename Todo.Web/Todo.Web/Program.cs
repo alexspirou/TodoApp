@@ -1,10 +1,22 @@
 using Todo.Web.Components;
+using Todo.Web.Services;
+using Todo.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveWebAssemblyComponents()
+    .AddInteractiveServerComponents();
+
+builder.Services.AddHttpClient();
+
+ builder.Services.AddScoped<ITodoEntriesService, TodoEntriesServices>();
+
+builder.Services.AddRazorPages()
+ .AddRazorPagesOptions(options => {
+     options.RootDirectory = "/home";
+ });
 
 var app = builder.Build();
 
@@ -26,6 +38,8 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddInteractiveWebAssemblyRenderMode();
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddInteractiveServerRenderMode();
+
 
 app.Run();

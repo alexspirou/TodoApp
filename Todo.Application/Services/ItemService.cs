@@ -29,9 +29,9 @@ namespace Todo.Application.Services
             return item.ToItemRequestDto();
         }
 
-        public async Task<ItemRequestDto> DeleteItem(uint id)
+        public async Task<ItemRequestDto> DeleteItemAsync(uint id)
         {
-            var itemForDelete = await _itemRepository.GetItemById(id);
+            var itemForDelete = await _itemRepository.GetItemByIdAsync(id);
 
             if (itemForDelete == null)
             {
@@ -43,22 +43,22 @@ namespace Todo.Application.Services
             return itemForDelete.ToItemRequestDto();
         }
 
-        public async Task<List<ItemRequestDto>> GetAllItems()
+        public async Task<List<ItemRequestDto>> GetAllItemsAsync()
         {
-            var items = await _itemRepository.GetAllItems();
+            var items = await _itemRepository.GetAllItemsAsync();
             return items.ToItemRequestDtoList();
         }
 
         public async Task<ItemRequestDto> GetItemById(uint id)
         {
-            var item = await _itemRepository.GetItemById(id);
+            var item = await _itemRepository.GetItemByIdAsync(id);
 
             return item.ToItemRequestDto();
         }
 
-        public async Task<ItemRequestDto> UpdateItem(uint id, ItemDtoCreateUpdateDto newItem)
+        public async Task<ItemRequestDto> UpdateItemAsync(uint id, ItemDtoCreateUpdateDto newItem)
         {
-            var itemForUdpate = await _itemRepository.GetItemById(id);
+            var itemForUdpate = await _itemRepository.GetItemByIdAsync(id);
 
             if (itemForUdpate == null)
             {

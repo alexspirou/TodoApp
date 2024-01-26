@@ -6,7 +6,7 @@ namespace Todo.EFCore.Repositories
     public interface IToDoEntryRepository : IRepositoryBase<TodoEntry>
     {
         Task<TodoEntry> CreateToDoEntryAsync(TodoEntry entry);
-        Task<List<TodoEntry>> GetToDoEntries();
-        Task<TodoEntry> GetTodoEntryByNameAndDate(string name, DateTime date);
+        Task<List<TodoEntry>> GetToDoEntriesAsync();
+        Task<TodoEntry> GetTodoEntryByNameAndDateAsync(string name, DateTime date);
     }
 }

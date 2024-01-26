@@ -18,14 +18,14 @@ namespace Todo.EFCore.Repositories
             return comment;
         }
 
-        public async Task<List<Comment>> GetAllComments()
+        public async Task<List<Comment>> GetAllCommentsAsync()
         {
             var result = await Context.Comment.ToListAsync();
 
             return result;
         }
 
-        public async Task<Comment> GetCommentById(uint id)
+        public async Task<Comment> GetCommentByIdAsync(uint id)
         {
             var result = 
                 await Context.Comment
