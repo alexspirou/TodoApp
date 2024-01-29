@@ -1,7 +1,8 @@
 ﻿using Todo.Application.ExtensionMethods;
-using Todo.EFCore.Repositories;
-using ToDo.Shared.Requests;
-using ToDo.Shared.Responses;
+using Todo.Application.Services.Interfaces;
+using Todo.EFCore.Repositories.Interfaces;
+using Todo.Shared.Requests;
+using Todo.Shared.Responses;
 
 namespace Todo.Application.Services
 {
@@ -13,7 +14,7 @@ namespace Todo.Application.Services
         {
             _commentRepository = commentRepository;
         }
-        public async Task<CommentResponsetDto> CreateCommentAsync(uint itemId,CommentCreateOrUpdateDto newComment)
+        public async Task<CommentResponsetDto> CreateCommentAsync(Guid itemId,CommentCreateOrUpdateDto newComment)
         {
             if (newComment is null)
             {
@@ -21,14 +22,13 @@ namespace Todo.Application.Services
             }
 
             var tempComment = newComment.ToComment();
-            tempComment.Date = DateTime.Now;
             tempComment.ItemId = itemId;
-            var comment = await _commentRepository.CreateCommentAsync(itemId, tempComment);
+            var comment = await _commentRepository.CreateCommentAsync(tempComment);
 
             return comment.ToCommentRequestDto();
         }
 
-        public async Task<CommentResponsetDto> DeleteCommentAsync(uint id)
+        public async Task<CommentResponsetDto> DeleteCommentAsync(Guid id)
         {
             var commentForDelete = await _commentRepository.GetCommentByIdAsync(id);
 
@@ -48,13 +48,13 @@ namespace Todo.Application.Services
             return comments.ToCommentRequestDtoList();
         }
 
-        public async Task<CommentResponsetDto> GetCommentById(uint id)
+        public async Task<CommentResponsetDto> GetCommentById(Guid id)
         {
             var comment = await _commentRepository.GetCommentByIdAsync(id);
             return comment.ToCommentRequestDto();
         }
 
-        public async Task<CommentResponsetDto> UpdateCommentAsync(uint id, CommentCreateOrUpdateDto updatedComment)
+        public async Task<CommentResponsetDto> UpdateCommentAsync(Guid id, CommentCreateOrUpdateDto updatedComment)
         {
             var commentForUpdate = await _commentRepository.GetCommentByIdAsync(id);
 

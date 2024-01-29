@@ -1,13 +1,19 @@
+using Microsoft.Extensions.Configuration;
 using Todo.Application;
 using Todo.EFCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (connectionString == null)
+{
+    throw new NullReferenceException(nameof(connectionString));
+}
 
 builder.Services
-    .AddEfcore()
-    .AddApplication();
+        .AddEfcore(connectionString)
+        .AddApplication();
 
 builder.Services.AddCors(
 options =>

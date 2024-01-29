@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Todo.EFCore\Todo.EFCore.csproj" />
     <ProjectReference Include="..\Todo.Models\Todo.Models.csproj" />
-    <ProjectReference Include="..\ToDo.Share\ToDo.Shared.csproj" />
+    <ProjectReference Include="..\Todo.Shared\Todo.Shared.csproj" />
   </ItemGroup>
 
 </Project>

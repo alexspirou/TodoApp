@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Todo.Shared.Responses;
 using Todo.Web.Services.Interfaces;
-using ToDo.Shared.Responses;
 
 namespace Todo.Web.Services
 {
@@ -12,20 +11,20 @@ namespace Todo.Web.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<List<TodoEntryResponseDto>> GetAllTodoEntriesAsync()
+        public async Task<List<CategoryResponseDto>> GetAllTodoEntriesAsync()
         {
-            var todoEntries = new List<TodoEntryResponseDto>();
+            var todoEntries = new List<CategoryResponseDto>();
             try
             {
                 var apiCall = @"https://localhost:7055/api/ToDo/v1/GetAllTodoEntries";
-                todoEntries = await _httpClient.GetFromJsonAsync<List<TodoEntryResponseDto>>(apiCall);
+                todoEntries = await _httpClient.GetFromJsonAsync<List<CategoryResponseDto>>(apiCall);
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine(ex.Message);
             }
      
-            return todoEntries ?? new List<TodoEntryResponseDto>();
+            return todoEntries ?? new List<CategoryResponseDto>();
         }
 
 

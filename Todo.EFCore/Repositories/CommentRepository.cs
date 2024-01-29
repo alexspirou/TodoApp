@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Todo.EFCore.Context;
 using Todo.EFCore.Repositories.Common;
+using Todo.EFCore.Repositories.Interfaces;
 using Todo.Models.Entities;
 
 namespace Todo.EFCore.Repositories
@@ -11,7 +12,7 @@ namespace Todo.EFCore.Repositories
         {
         }
 
-        public async Task<Comment> CreateCommentAsync(uint commentId, Comment comment)
+        public async Task<Comment> CreateCommentAsync(Comment comment)
         {
             Context.Comment.Add(comment);
             await SaveAsync();
@@ -25,7 +26,7 @@ namespace Todo.EFCore.Repositories
             return result;
         }
 
-        public async Task<Comment> GetCommentByIdAsync(uint id)
+        public async Task<Comment> GetCommentByIdAsync(Guid id)
         {
             var result = 
                 await Context.Comment

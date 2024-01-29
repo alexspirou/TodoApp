@@ -1,6 +1,6 @@
 ﻿using Todo.Models.Entities;
-using ToDo.Shared.Requests;
-using ToDo.Shared.Responses;
+using Todo.Shared.Requests;
+using Todo.Shared.Responses;
 
 namespace Todo.Application.ExtensionMethods
 {

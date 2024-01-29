@@ -10,11 +10,13 @@ namespace Todo.EFCore.Context.Configurations
         {
             // Primary Key
             builder
+                .ToTable("Comment")
                 .HasKey(c => c.Id);
 
             // Properties
             builder
                 .Property(c => c.Content)
+                .HasMaxLength(200)
                 .IsRequired();
 
             builder

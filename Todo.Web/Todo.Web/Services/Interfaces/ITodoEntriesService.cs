@@ -1,10 +1,9 @@
-﻿using ToDo.Shared.Requests;
-using ToDo.Shared.Responses;
+﻿using Todo.Shared.Responses;
 
 namespace Todo.Web.Services.Interfaces
 {
     public interface ITodoEntriesService
     {
-        public Task<List<TodoEntryResponseDto>> GetAllTodoEntriesAsync();
+        public Task<List<CategoryResponseDto>> GetAllTodoEntriesAsync();
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using ToDo.Shared.Requests;
+﻿using Todo.Shared.Requests;
 
 namespace Todo.Web.Components.Pages
 {
@@ -11,7 +10,7 @@ namespace Todo.Web.Components.Pages
         protected override void OnInitialized()
         {
             _todoEntry = new CreateDtoWithCommentsAndItems(
-                new TodoEntryCreateOrUpdateDto
+                new CategoryCreateOrUpdateDto
                 {
                     Name = string.Empty,
                 },
@@ -19,7 +18,7 @@ namespace Todo.Web.Components.Pages
                 {
                     Content = string.Empty,
                 },
-                new ItemDtoCreateUpdateDto
+                new TodoTaskDtoCreateUpdateDto
                 {
                     Title = string.Empty,
                     IsDone = false 

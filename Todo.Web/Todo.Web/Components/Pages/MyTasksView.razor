@@ -1,4 +1,4 @@
-﻿@using ToDo.Shared.Responses
+﻿@using Todo.Shared.Responses
 @using Todo.Web.Common;
 @using Todo.Web.Services;
 @using Todo.Web.Services.Interfaces
@@ -19,10 +19,10 @@
                     <p>@entry.Name</p>
                     <p>@entry.Id</p>
 
-                    @if (entry.Items != null && entry.Items.Any())
+                    @if (entry.TodoTasks != null && entry.TodoTasks.Any())
                     {
                         <p>Items:</p>
-                        @foreach (var item in entry.Items)
+                        @foreach (var item in entry.TodoTasks)
                         {
                             <p>@item.Title</p>
                         }
