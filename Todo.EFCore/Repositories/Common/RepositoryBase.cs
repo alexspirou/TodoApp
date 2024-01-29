@@ -21,7 +21,7 @@ namespace Todo.EFCore.Repositories.Common
             get { return _entities ?? (_entities = Context.Set<T>()); }
         }
 
-        public async Task<T> GetByIdAsync(uint id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             T? entry = await Entities.FindAsync(id);
             if (entry is null)

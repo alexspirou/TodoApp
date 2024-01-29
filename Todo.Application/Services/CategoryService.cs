@@ -28,7 +28,7 @@ namespace Todo.Application.Services
             return newTodoEntry.ToCategoryResponseDto();
 
         }
-        public async Task<CategoryResponseDto> GetCategoryById(uint id)
+        public async Task<CategoryResponseDto> GetCategoryById(Guid id)
         {
             var result = await _toDoEntryRepository.GetByIdAsync(id);
             return result.ToCategoryResponseDto();
@@ -69,7 +69,7 @@ namespace Todo.Application.Services
 
         }
 
-        public async Task<CategoryResponseDto> DeleteCategoryAsync(uint id)
+        public async Task<CategoryResponseDto> DeleteCategoryAsync(Guid id)
         {
             var todoEntryForUpdate = await _toDoEntryRepository.GetByIdAsync(id);
 

@@ -49,7 +49,7 @@ namespace ToDo.Server.Controllers
         [HttpGet]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetCategoryById(uint id)
+        public async Task<IActionResult> GetCategoryById(Guid id)
         {
             var result = await _todoManager.GetCategoryById(id);
 
@@ -59,7 +59,7 @@ namespace ToDo.Server.Controllers
         [HttpDelete]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> DeleteCategoryByIdAsync(uint id)
+        public async Task<IActionResult> DeleteCategoryByIdAsync(Guid id)
         {
             var result = await _todoManager.DeleteCategoryAsync(id);
 
