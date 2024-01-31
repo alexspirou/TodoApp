@@ -8,14 +8,11 @@ namespace Todo.Application.ExtensionMethods
 
         public static TodoTaskResponseDto ToTodoTasksResponseDto(this TodoTask todoTask)
         {
-            return new TodoTaskResponseDto
-            {
-                Id = todoTask.Id,   
-                Date = todoTask.Date,
-                IsDone = todoTask.IsDone,
-                Title = todoTask.Title,
-                Comment = todoTask?.Comment?.ToCommentRequestDtoList()
-            };
+            return new TodoTaskResponseDto( todoTask.Id,
+                                            todoTask.Title, 
+                                            todoTask.IsDone, 
+                                            todoTask.Date, 
+                                            todoTask?.Comment?.ToCommentRequestDtoList());
         }
 
         public static List<TodoTaskResponseDto> ToTodoTaskResponseDtoList(this IEnumerable<TodoTask> todoTaskList)
@@ -26,9 +23,8 @@ namespace Todo.Application.ExtensionMethods
 
         public static TodoTask ToTodoTask(this TodoTaskDtoCreateUpdateDto todoTaskDtoCreateUpdateDto)
         {
-            return new TodoTask
+            return new TodoTask(todoTaskDtoCreateUpdateDto.Title)
             {
-                Title = todoTaskDtoCreateUpdateDto.Title,
                 IsDone = todoTaskDtoCreateUpdateDto.IsDone,
             };
         }
@@ -37,6 +33,8 @@ namespace Todo.Application.ExtensionMethods
         {
             return todoTaskDtoCreateUpdateDtoList?.Select(i => i.ToTodoTask()).ToList() ?? new List<TodoTask>();
         }
+
+
 
     }
 }

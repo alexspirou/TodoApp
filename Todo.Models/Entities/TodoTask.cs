@@ -2,7 +2,11 @@
 {
     public class TodoTask : BaseEntity
     {
-        public string Title { get; set; } = null!;
+        public TodoTask(string title)
+        {
+            Title = title;
+        }
+        public string Title { get; set; } 
         public bool IsDone { get; set; }
 
         // Relationships

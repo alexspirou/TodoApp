@@ -5,8 +5,8 @@ namespace Todo.EFCore.Repositories.Interfaces
 {
     public interface ICategoryRepository : IRepositoryBase<Category>
     {
-        Task<Category> CreateCategoryAsync(Category entry);
-        Task<List<Category>> GetAllCategoriesAsync();
-        Task<Category> GetCategoryByNameAndDateAsync(string name, DateTime date);
+        Task<Category> CreateCategoryAsync(Category entry, CancellationToken cancellationToken);
+        Task<List<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken);
+        Task<Category> GetCategoryByNameAndDateAsync(string name, DateTime date, CancellationToken cancellationToken);
     }
 }

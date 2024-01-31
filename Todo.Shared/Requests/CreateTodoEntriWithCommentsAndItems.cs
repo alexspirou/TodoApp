@@ -1,7 +1,7 @@
 ﻿namespace Todo.Shared.Requests
 {
-    public record CreateDtoWithCommentsAndItems(CategoryCreateOrUpdateDto todo, 
-                                                CommentCreateOrUpdateDto comment, 
-                                                TodoTaskDtoCreateUpdateDto item);
+    public record CreateTodoTaskWithCommentsAndItems(   CategoryCreateOrUpdateDto todo, 
+                                                        CommentCreateOrUpdateDto comment, 
+                                                        TodoTaskDtoCreateUpdateDto item);
 
 }

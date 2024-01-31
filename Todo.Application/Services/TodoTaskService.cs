@@ -1,75 +1,101 @@
 ﻿using Todo.Application.ExtensionMethods;
 using Todo.Application.Services.Interfaces;
 using Todo.EFCore.Repositories;
+using Todo.Shared.Exceptions;
 using Todo.Shared.Responses;
 
 namespace Todo.Application.Services
 {
-    internal class TodoTaskService : ITodoTaskService
+    public class TodoTaskService : ITodoTaskService
     {
-        private readonly ITodoTaskRepository _itemRepository;
+        private readonly ITodoTaskRepository _todoTaskRepository;
 
-        public TodoTaskService(ITodoTaskRepository itemRepository)
+        public TodoTaskService(ITodoTaskRepository todoTaskRepository)
         {
-            _itemRepository = itemRepository;
+            _todoTaskRepository = todoTaskRepository;
         }
 
-        public async Task<TodoTaskResponseDto> CreateTodoTaskAsync(Guid toEntryId,TodoTaskDtoCreateUpdateDto newItemRequest)
+        public async Task MarkTodoTaskAsCompleted(Guid id, CancellationToken cancellationToken = default)
         {
-            if (newItemRequest is null)
+            var todoTaskForStatusUpdate = await _todoTaskRepository.GetTodoTaskByIdAsync(id, cancellationToken);
+
+            if (todoTaskForStatusUpdate == null)
             {
-                return new TodoTaskResponseDto();
+                throw new NullReferenceException(nameof(todoTaskForStatusUpdate));
+            }    
+            if(todoTaskForStatusUpdate.IsDone is true)
+            {
+                throw new TodoTaskException($"Cannot update status for task {todoTaskForStatusUpdate.Title} (ID: {todoTaskForStatusUpdate.Id}) as it is already marked as completed.");
             }
 
-            var tempItem = newItemRequest.ToTodoTask();
-            tempItem.CategoryId = toEntryId;
-            var newItem = await _itemRepository.CreateTodoTaskAsync(tempItem);
+            todoTaskForStatusUpdate.IsDone = true;
 
-            return newItem.ToTodoTasksResponseDto();
+            await _todoTaskRepository.UpdateAsync(todoTaskForStatusUpdate, cancellationToken);
+
+
         }
 
-        public async Task<TodoTaskResponseDto> DeleteTodoTaskAsync(Guid id)
+        public async Task<TodoTaskResponseDto> CreateTodoTaskAsync(Guid toEntryId,TodoTaskDtoCreateUpdateDto newTodoTaskRequest, CancellationToken cancellationToken = default)
         {
-            var itemToDelete = await _itemRepository.GetTodoTaskByIdAsync(id);
-
-            if (itemToDelete == null)
+            if (newTodoTaskRequest is null)
             {
-                return new TodoTaskResponseDto();
+                throw new NullReferenceException(nameof(newTodoTaskRequest));   
             }
 
-            await _itemRepository.DeleteAsync(itemToDelete);
+            var tempTodoTask = newTodoTaskRequest.ToTodoTask();
+            tempTodoTask.CategoryId = toEntryId;
+            var newTodoTask = await _todoTaskRepository.CreateTodoTaskAsync(tempTodoTask, cancellationToken);
 
-            return itemToDelete.ToTodoTasksResponseDto();
+            return newTodoTask.ToTodoTasksResponseDto();
         }
 
-        public async Task<List<TodoTaskResponseDto>> GetAllTodoTasksAsync()
+        public async Task<TodoTaskResponseDto> DeleteTodoTaskAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var items = await _itemRepository.GetAllTodoTasks();
-            return items.ToTodoTaskResponseDtoList();
-        }
+            var todoTaskToDelete = await _todoTaskRepository.GetTodoTaskByIdAsync(id,cancellationToken);
 
-        public async Task<TodoTaskResponseDto> GetTodoTaskByIdAsync(Guid id)
-        {
-            var item = await _itemRepository.GetTodoTaskByIdAsync(id);
-
-            return item.ToTodoTasksResponseDto();
-        }
-
-        public async Task<TodoTaskResponseDto> UpdateTodoTaskAsync(Guid id, TodoTaskDtoCreateUpdateDto newItemRequest)
-        {
-            var itemToUpdate = await _itemRepository.GetTodoTaskByIdAsync(id);
-
-            if (itemToUpdate == null)
+            if (todoTaskToDelete == null)
             {
-                return new TodoTaskResponseDto();
+                throw new NullReferenceException(nameof(todoTaskToDelete));
+            }
+
+            await _todoTaskRepository.DeleteAsync(todoTaskToDelete, cancellationToken);
+
+            return todoTaskToDelete.ToTodoTasksResponseDto();
+        }
+
+        public async Task<List<TodoTaskResponseDto>> GetAllTodoTasksAsync(CancellationToken cancellationToken = default)
+        {
+            var todoTasks = await _todoTaskRepository.GetAllTodoTasks(cancellationToken);
+            return todoTasks.ToTodoTaskResponseDtoList();
+        }
+
+        public async Task<TodoTaskResponseDto> GetTodoTaskByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var todoTask = await _todoTaskRepository.GetTodoTaskByIdAsync(id, cancellationToken);
+
+            return todoTask.ToTodoTasksResponseDto();
+        }
+
+        public async Task<TodoTaskResponseDto> UpdateTodoTaskAsync(Guid id, TodoTaskDtoCreateUpdateDto newTodoTaskRequest, CancellationToken cancellationToken = default)
+        {
+
+            if(newTodoTaskRequest is null)
+            {
+                throw new ArgumentNullException(nameof(newTodoTaskRequest));
+            }
+            var todoTaskForUpdate = await _todoTaskRepository.GetTodoTaskByIdAsync(id,cancellationToken);
+
+            if (todoTaskForUpdate == null)
+            {
+                throw new NullReferenceException(nameof(todoTaskForUpdate));
             }
             // Update item
-            itemToUpdate.Title = newItemRequest.Title;
-            itemToUpdate.IsDone = newItemRequest.IsDone;
+            todoTaskForUpdate.Title = newTodoTaskRequest.Title;
+            todoTaskForUpdate.IsDone = newTodoTaskRequest.IsDone;
 
-            await _itemRepository.UpdateAsync(itemToUpdate);
+            await _todoTaskRepository.UpdateAsync(todoTaskForUpdate, cancellationToken);
 
-            return itemToUpdate.ToTodoTasksResponseDto();
+            return todoTaskForUpdate.ToTodoTasksResponseDto();
         }
     }
 }

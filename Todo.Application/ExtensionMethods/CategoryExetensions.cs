@@ -9,14 +9,10 @@ namespace Todo.Application.ExtensionMethods
 
         public static CategoryResponseDto ToCategoryResponseDto(this Category todoEntry)
         {
-            return new CategoryResponseDto
-            {
-                Id = todoEntry.Id,  
-                DateTime = todoEntry.Date,
-                Name = todoEntry.Name,
-                TodoTasks = todoEntry?.TodoTasks?.ToTodoTaskResponseDtoList(),
-                
-            };
+            return new CategoryResponseDto(todoEntry.Id,
+                    todoEntry.Name,
+                    todoEntry.Date,
+                    todoEntry?.TodoTasks?.ToTodoTaskResponseDtoList());
         }
 
         public static List<CategoryResponseDto> ToCategoryResponseDtoList(this IEnumerable<Category> category)

@@ -19,32 +19,32 @@ namespace ToDo.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(Guid itemId, CommentCreateOrUpdateDto newComment)
+        public async Task<IActionResult> CreateComment(Guid itemId, CommentCreateOrUpdateDto newComment,CancellationToken cancellationToken = default)
         {
-            var result = await _commentService.CreateCommentAsync(itemId, newComment);
+            var result = await _commentService.CreateCommentAsync(itemId, newComment, cancellationToken);
 
             return Ok(result);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateCommentAsync(Guid id, [FromBody] CommentCreateOrUpdateDto updatedComment)
+        public async Task<IActionResult> UpdateCommentAsync(Guid id, [FromBody] CommentCreateOrUpdateDto updatedComment,CancellationToken cancellationToken = default)
         {
-            var result = await _commentService.UpdateCommentAsync(id, updatedComment);
+            var result = await _commentService.UpdateCommentAsync(id, updatedComment, cancellationToken);
 
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCommentsAsync()
+        public async Task<IActionResult> GetAllCommentsAsync(CancellationToken cancellationToken = default)
         {
-            var result = await _commentService.GetAllCommentsAsync();
+            var result = await _commentService.GetAllCommentsAsync(cancellationToken);
 
             return Ok(result);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteCommentAsync(Guid id)
+        public async Task<IActionResult> DeleteCommentAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var result = await _commentService.DeleteCommentAsync(id);
+            var result = await _commentService.DeleteCommentAsync(id, cancellationToken);
 
             return Ok(result);
         }

@@ -8,79 +8,76 @@ namespace Todo.Application.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _toDoEntryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(ICategoryRepository toDoEntryRepository)
+        public CategoryService(ICategoryRepository categoryRepository)
         {
-            _toDoEntryRepository = toDoEntryRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryResponseDto> CreateCategoryAsync(CategoryCreateOrUpdateDto newTodoEntryRequest)
+        public async Task<CategoryResponseDto> CreateCategoryAsync(CategoryCreateOrUpdateDto newTodoEntryRequest, CancellationToken cancellationToken = default)
         {
-            if (newTodoEntryRequest is null)
+ 
+
+            var tempCategory = newTodoEntryRequest.ToCategory();
+            var newCategory = await _categoryRepository.CreateCategoryAsync(tempCategory,cancellationToken);
+
+            return newCategory.ToCategoryResponseDto();
+
+        }
+        public async Task<CategoryResponseDto> GetCategoryById(Guid id, CancellationToken cancellationToken = default)
+        {
+            var category = await _categoryRepository.GetByIdAsync(id,cancellationToken);
+            return category.ToCategoryResponseDto();
+        }
+        public async Task<List<CategoryResponseDto>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
+        {
+            var category = await _categoryRepository.GetAllCategoriesAsync(cancellationToken);
+            return category.ToCategoryResponseDtoList();
+        }
+
+        public async Task<CategoryResponseDto> UpdateCategoryAsync(string name, DateTime dateTime, CategoryCreateOrUpdateDto updatedCategory, CancellationToken cancellationToken = default)
+        {
+            var categoryForUpdate = await _categoryRepository.GetCategoryByNameAndDateAsync(name, dateTime,cancellationToken);
+
+            if (categoryForUpdate == null)
             {
-                return new CategoryResponseDto();
+               throw new NullReferenceException(nameof(categoryForUpdate));
             }
 
-            var tempToDoEnty = newTodoEntryRequest.ToCategory();
-            var newTodoEntry = await _toDoEntryRepository.CreateCategoryAsync(tempToDoEnty);
+            categoryForUpdate.Name = updatedCategory.Name;
+            await _categoryRepository.UpdateAsync(categoryForUpdate,cancellationToken);
 
-            return newTodoEntry.ToCategoryResponseDto();
-
-        }
-        public async Task<CategoryResponseDto> GetCategoryById(Guid id)
-        {
-            var result = await _toDoEntryRepository.GetByIdAsync(id);
-            return result.ToCategoryResponseDto();
-        }
-        public async Task<List<CategoryResponseDto>> GetAllCategoriesAsync()
-        {
-            var result = await _toDoEntryRepository.GetAllCategoriesAsync();
-            return result.ToCategoryResponseDtoList();
+            return categoryForUpdate.ToCategoryResponseDto();
         }
 
-        public async Task<CategoryResponseDto> UpdateCategoryAsync(string name, DateTime dateTime, CategoryCreateOrUpdateDto updatedTodoEntryDto)
+        public async Task<CategoryResponseDto> DeleteCategoryAsync(string name, DateTime dateTime, CancellationToken cancellationToken = default)
         {
-            var todoEntryForUpdate = await _toDoEntryRepository.GetCategoryByNameAndDateAsync(name, dateTime);
+            var categoryToDelete = await _categoryRepository.GetCategoryByNameAndDateAsync(name, dateTime,cancellationToken);
 
-            if (todoEntryForUpdate == null)
+            if (categoryToDelete == null)
             {
-                return new CategoryResponseDto();
+                throw new NullReferenceException(nameof(categoryToDelete));
             }
 
-            todoEntryForUpdate.Name = updatedTodoEntryDto.Name;
-            await _toDoEntryRepository.UpdateAsync(todoEntryForUpdate);
+            await _categoryRepository.DeleteAsync(categoryToDelete,cancellationToken);
 
-            return todoEntryForUpdate.ToCategoryResponseDto();
-        }
-
-        public async Task<CategoryResponseDto> DeleteCategoryAsync(string name, DateTime dateTime)
-        {
-            var todoEntryForUpdate = await _toDoEntryRepository.GetCategoryByNameAndDateAsync(name, dateTime);
-
-            if (todoEntryForUpdate == null)
-            {
-                return new CategoryResponseDto();
-            }
-
-            await _toDoEntryRepository.DeleteAsync(todoEntryForUpdate);
-
-            return todoEntryForUpdate.ToCategoryResponseDto();
+            return categoryToDelete.ToCategoryResponseDto();
 
         }
 
-        public async Task<CategoryResponseDto> DeleteCategoryAsync(Guid id)
+        public async Task<CategoryResponseDto> DeleteCategoryAsync(Guid id,CancellationToken cancellationToken = default)
         {
-            var todoEntryForUpdate = await _toDoEntryRepository.GetByIdAsync(id);
+            var categoryToDelete = await _categoryRepository.GetByIdAsync(id,cancellationToken);
 
-            if (todoEntryForUpdate == null)
+            if (categoryToDelete == null)
             {
-                return new CategoryResponseDto();
+                throw new NullReferenceException(nameof(categoryToDelete));
             }
 
-            await _toDoEntryRepository.DeleteAsync(todoEntryForUpdate);
+            await _categoryRepository.DeleteAsync(categoryToDelete,cancellationToken);
 
-            return todoEntryForUpdate.ToCategoryResponseDto();
+            return categoryToDelete.ToCategoryResponseDto();
         }
 
 

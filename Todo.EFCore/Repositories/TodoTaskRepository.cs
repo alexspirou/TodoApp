@@ -12,32 +12,32 @@ namespace Todo.EFCore.Repositories
         {
         }
 
-        public async Task<TodoTask> CreateTodoTaskAsync(TodoTask item)
+        public async Task<TodoTask> CreateTodoTaskAsync(TodoTask item, CancellationToken cancellationToken)
         {
-            Context.Item.Add(item);
-            await SaveAsync();
+            Context.TodoTask.Add(item);
+            await SaveAsync(cancellationToken);
             return item;
         }
 
-        public async Task<List<TodoTask>> GetAllTodoTasks()
+        public async Task<List<TodoTask>> GetAllTodoTasks(CancellationToken cancellationToken)
         {
             var result =
-                await Context.Item
+                await Context.TodoTask
                     .AsNoTracking()
                     .Include(i => i.Comment)
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
 
             return result;
         }
 
-        public async Task<TodoTask> GetTodoTaskByIdAsync(Guid id)
+        public async Task<TodoTask> GetTodoTaskByIdAsync(Guid id,CancellationToken cancellationToken)
         {
             var result =
-               await Context.Item
+               await Context.TodoTask
                 .Where(x => x.Id == id)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(cancellationToken);
 
-            return result ?? new TodoTask();
+            return result ?? new TodoTask(string.Empty) ;
         }
     }
 }

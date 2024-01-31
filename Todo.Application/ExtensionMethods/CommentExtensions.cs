@@ -14,12 +14,9 @@ namespace Todo.Application.ExtensionMethods
         /// <returns></returns>
         public static CommentResponsetDto ToCommentRequestDto(this Comment comment)
         {
-            return new CommentResponsetDto
-            {   
-                Content = comment.Content,
-                Date = comment.Date,  
-                Id = comment.Id,
-            };
+            return new CommentResponsetDto( comment.Id,
+                                            comment.Date, 
+                                            comment.Content);
         }
         /// <summary>
         /// From CommentList to CommentRequestDtoList

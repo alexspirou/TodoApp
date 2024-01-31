@@ -5,8 +5,8 @@ namespace Todo.EFCore.Repositories
 {
     public interface ITodoTaskRepository : IRepositoryBase<TodoTask>
     {
-        Task<TodoTask> CreateTodoTaskAsync(TodoTask comment);
-        Task<TodoTask> GetTodoTaskByIdAsync(Guid id);
-        Task<List<TodoTask>> GetAllTodoTasks();
+        Task<TodoTask> CreateTodoTaskAsync(TodoTask comment, CancellationToken cancellationToken = default);
+        Task<TodoTask> GetTodoTaskByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<List<TodoTask>> GetAllTodoTasks(CancellationToken cancellationToken = default);
     }
 }

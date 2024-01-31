@@ -9,39 +9,50 @@ namespace ToDo.Server.Controllers
     {
         private readonly ILogger<TodoTaskController> _logger;
 
-        private readonly ITodoTaskService _itemService;
+        private readonly ITodoTaskService _itodoTaskService;
 
         public TodoTaskController(ILogger<TodoTaskController> logger, ITodoTaskService itemService)
         {
             _logger = logger;
-            _itemService = itemService;
+            _itodoTaskService = itemService;
         }
 
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateTodoTaskAsync(Guid todoEntryId, TodoTaskDtoCreateUpdateDto newItem)
+        public async Task<IActionResult> CreateTodoTaskAsync(Guid todoEntryId, TodoTaskDtoCreateUpdateDto newItem, CancellationToken cancellationToken = default)
         {
-            var result = await _itemService.CreateTodoTaskAsync(todoEntryId,newItem);
+            var result = await _itodoTaskService.CreateTodoTaskAsync(todoEntryId,newItem, cancellationToken);
 
             return Ok(result);
         }
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateTodoTaskAsync(Guid id, [FromBody] TodoTaskDtoCreateUpdateDto newItem)
+        public async Task<IActionResult> UpdateTodoTaskAsync(Guid id, [FromBody] TodoTaskDtoCreateUpdateDto newItem, CancellationToken cancellationToken = default)
         {
-            var result = await _itemService.UpdateTodoTaskAsync(id, newItem);
+            var result = await _itodoTaskService.UpdateTodoTaskAsync(id, newItem, cancellationToken);
 
             return Ok(result);
+        }       
+        
+        
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> MarkTodoTaskAsCompleted(Guid id, CancellationToken cancellationToken = default)
+        {
+           await _itodoTaskService.MarkTodoTaskAsCompleted(id, cancellationToken);
+
+            return Ok();
         }
 
         [HttpGet]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetAllTodoTasksAsync()
+        public async Task<IActionResult> GetAllTodoTasksAsync(CancellationToken cancellationToken = default)
         {
-            var result = await _itemService.GetAllTodoTasksAsync();
+            var result = await _itodoTaskService.GetAllTodoTasksAsync(cancellationToken);
 
             return Ok(result);
         }
@@ -49,9 +60,9 @@ namespace ToDo.Server.Controllers
         [HttpDelete]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> DeleteTodoTaskAsync(Guid id)
+        public async Task<IActionResult> DeleteTodoTaskAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var result = await _itemService.DeleteTodoTaskAsync(id);
+            var result = await _itodoTaskService.DeleteTodoTaskAsync(id, cancellationToken);
 
             return Ok(result);
         }

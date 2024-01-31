@@ -4,25 +4,15 @@ namespace Todo.Web.Components.Pages
 {
     public partial class AddNewTaskView 
     {
-        private CreateDtoWithCommentsAndItems? _todoEntry;
+        private CreateTodoTaskWithCommentsAndItems? _todoTask;
 
 
         protected override void OnInitialized()
         {
-            _todoEntry = new CreateDtoWithCommentsAndItems(
-                new CategoryCreateOrUpdateDto
-                {
-                    Name = string.Empty,
-                },
-                new CommentCreateOrUpdateDto
-                {
-                    Content = string.Empty,
-                },
-                new TodoTaskDtoCreateUpdateDto
-                {
-                    Title = string.Empty,
-                    IsDone = false 
-                }
+            _todoTask = new CreateTodoTaskWithCommentsAndItems(
+                new CategoryCreateOrUpdateDto(string.Empty),
+                new CommentCreateOrUpdateDto(string.Empty),
+                new TodoTaskDtoCreateUpdateDto(string.Empty, false)
             );
 
 

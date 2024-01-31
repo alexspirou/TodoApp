@@ -12,26 +12,26 @@ namespace Todo.EFCore.Repositories
         {
         }
 
-        public async Task<Comment> CreateCommentAsync(Comment comment)
+        public async Task<Comment> CreateCommentAsync(Comment comment, CancellationToken cancellationToken)
         {
             Context.Comment.Add(comment);
-            await SaveAsync();
+            await SaveAsync(cancellationToken);
             return comment;
         }
 
-        public async Task<List<Comment>> GetAllCommentsAsync()
+        public async Task<List<Comment>> GetAllCommentsAsync(CancellationToken cancellationToken)
         {
-            var result = await Context.Comment.ToListAsync();
+            var result = await Context.Comment.ToListAsync(cancellationToken);
 
             return result;
         }
 
-        public async Task<Comment> GetCommentByIdAsync(Guid id)
+        public async Task<Comment> GetCommentByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var result = 
                 await Context.Comment
                 .Where(c => c.Id == id)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(cancellationToken);
 
             return result ?? new Comment();
         }

@@ -1,5 +1,2 @@
-﻿public class TodoTaskDtoCreateUpdateDto
-{
-    public string Title { get; set; } = null!;
-    public bool IsDone { get; set; }
-}
+﻿public record TodoTaskDtoCreateUpdateDto(   string Title,
+                                            bool IsDone);

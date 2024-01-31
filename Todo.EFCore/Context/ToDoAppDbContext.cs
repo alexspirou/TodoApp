@@ -6,8 +6,8 @@ namespace Todo.EFCore.Context
 {
     public class ToDoAppDbContext : DbContext
     {
-        public DbSet<Category> TodoEntry { get; set; } = null!;
-        public DbSet<TodoTask> Item { get; set; } = null!;
+        public DbSet<Category> Category { get; set; } = null!;
+        public DbSet<TodoTask> TodoTask { get; set; } = null!;
         public DbSet<Comment> Comment { get; set; } = null!;
 
         public ToDoAppDbContext(DbContextOptions<ToDoAppDbContext> options) : base(options)
@@ -19,17 +19,6 @@ namespace Todo.EFCore.Context
             
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer();
-
-            //if (!optionsBuilder.IsConfigured)
-            //{
-            //    // TODO : remove connection string from here
-            //}
-
-            base.OnConfiguring(optionsBuilder);
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
