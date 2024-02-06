@@ -1,0 +1,37 @@
+﻿@using System.Text.Json
+@using Todo.Shared.ExtensionMethods
+@using Todo.Shared.Responses
+@using Todo.Web.Services.Interfaces
+
+@inject ITodoEntriesService TodoEntriesService
+
+@page "/category/{CategoryName}/{CategoryId}"
+
+@if (Category is not null)
+{
+    <CategoryComponent Category="Category" OnDeleteCategoryClicked="OnCategoryDeleteEventHandler" />
+}
+else
+{
+    <h1>Empty</h1>
+}
+
+
+@code
+{
+    [Parameter] public string CategoryName { get; set; } = default!;
+    [Parameter] public string CategoryId { get; set; }
+    [Parameter] public CategoryResponseDto? Category { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Category = await TodoEntriesService.GetCategoryByIdAsync(CategoryId.ToGuid());
+    }
+
+    private async Task OnCategoryDeleteEventHandler()
+    {
+        Category = null;
+        StateHasChanged();
+    }
+
+}

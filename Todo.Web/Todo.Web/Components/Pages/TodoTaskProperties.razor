@@ -1,0 +1,12 @@
+﻿@using Todo.Web.Common;
+
+
+@page "/todo-task-properties/todo-task/{TodoTaskTitle}/{TodoTaskJson}"
+
+
+<h3>TodoTaskProperties</h3>
+<h3>@TodoTask.Title</h3>
+@foreach (var comment in TodoTask.Comment)
+{
+    <p> @comment.Content </p>
+}

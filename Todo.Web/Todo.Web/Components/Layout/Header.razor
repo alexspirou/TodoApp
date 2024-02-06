@@ -1,3 +1,18 @@
-﻿<div id="header">
-    <h1>Todo App</h1>
+﻿@using Todo.Web.Common
+<div id="header">
+    <h1 @onclick=OnLogoClick>TodoApp</h1>
 </div>
+
+
+
+
+@code{
+
+
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+
+    private void OnLogoClick()
+    {
+        NavigationManager.NavigateTo(NavigationRoutes.Home);
+    }
+}

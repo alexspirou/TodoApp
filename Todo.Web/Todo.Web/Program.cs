@@ -1,3 +1,4 @@
+using Todo.Middleware;
 using Todo.Web.Components;
 using Todo.Web.Services;
 using Todo.Web.Services.Interfaces;
@@ -19,7 +20,7 @@ builder.Services.AddRazorPages()
  });
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

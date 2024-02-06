@@ -33,7 +33,7 @@ namespace Todo.Server.UnitTests.TodoService
             var sut = CreateSut();
 
             // Act
-            var action = () =>sut.MarkTodoTaskAsCompleted(completedTask.Id);
+            var action = () =>sut.MarkTodoTaskAsCompletedAsync(completedTask.Id);
 
             // Assert
             action.Should().ThrowAsync<Exception>();

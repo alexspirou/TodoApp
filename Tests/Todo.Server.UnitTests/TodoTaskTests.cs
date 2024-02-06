@@ -36,7 +36,7 @@ namespace Todo.Server.UnitTests
 
             var todoTaskService = new TodoTaskService(mockRepository.Object);
             // Act
-            var action = async () => await todoTaskService.MarkTodoTaskAsCompleted(id, cancellationToken);
+            var action = async () => await todoTaskService.MarkTodoTaskAsCompletedAsync(id, cancellationToken);
 
             // Assert
             await action.Should().ThrowAsync<TodoTaskException>();

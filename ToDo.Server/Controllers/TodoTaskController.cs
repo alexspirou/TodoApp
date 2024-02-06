@@ -20,9 +20,9 @@ namespace ToDo.Server.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateTodoTaskAsync(Guid todoEntryId, TodoTaskDtoCreateUpdateDto newItem, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateTodoTaskAsync(Guid categoryId, TodoTaskDtoCreateUpdateDto newItem, CancellationToken cancellationToken = default)
         {
-            var result = await _itodoTaskService.CreateTodoTaskAsync(todoEntryId,newItem, cancellationToken);
+            var result = await _itodoTaskService.CreateTodoTaskAsync(categoryId,newItem, cancellationToken);
 
             return Ok(result);
         }
@@ -42,7 +42,17 @@ namespace ToDo.Server.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> MarkTodoTaskAsCompleted(Guid id, CancellationToken cancellationToken = default)
         {
-           await _itodoTaskService.MarkTodoTaskAsCompleted(id, cancellationToken);
+           await _itodoTaskService.MarkTodoTaskAsCompletedAsync(id, cancellationToken);
+
+            return Ok();
+        }       
+        
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> MarkTodoTaskAsInCompleted(Guid id, CancellationToken cancellationToken = default)
+        {
+           await _itodoTaskService.MarkTodoTaskAsInCompletedAsync(id, cancellationToken);
 
             return Ok();
         }
@@ -53,6 +63,16 @@ namespace ToDo.Server.Controllers
         public async Task<IActionResult> GetAllTodoTasksAsync(CancellationToken cancellationToken = default)
         {
             var result = await _itodoTaskService.GetAllTodoTasksAsync(cancellationToken);
+
+            return Ok(result);
+        }        
+        
+        [HttpGet]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetTodoTasksByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken = default)
+        {
+            var result = await _itodoTaskService.GetTodoTasksByCategoryIdAsync(categoryId, cancellationToken);
 
             return Ok(result);
         }

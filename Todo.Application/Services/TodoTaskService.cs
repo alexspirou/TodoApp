@@ -15,15 +15,15 @@ namespace Todo.Application.Services
             _todoTaskRepository = todoTaskRepository;
         }
 
-        public async Task MarkTodoTaskAsCompleted(Guid id, CancellationToken cancellationToken = default)
+        public async Task MarkTodoTaskAsCompletedAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var todoTaskForStatusUpdate = await _todoTaskRepository.GetTodoTaskByIdAsync(id, cancellationToken);
 
             if (todoTaskForStatusUpdate == null)
             {
                 throw new NullReferenceException(nameof(todoTaskForStatusUpdate));
-            }    
-            if(todoTaskForStatusUpdate.IsDone is true)
+            }
+            if (todoTaskForStatusUpdate.IsDone is true)
             {
                 throw new TodoTaskException($"Cannot update status for task {todoTaskForStatusUpdate.Title} (ID: {todoTaskForStatusUpdate.Id}) as it is already marked as completed.");
             }
@@ -35,11 +35,29 @@ namespace Todo.Application.Services
 
         }
 
-        public async Task<TodoTaskResponseDto> CreateTodoTaskAsync(Guid toEntryId,TodoTaskDtoCreateUpdateDto newTodoTaskRequest, CancellationToken cancellationToken = default)
+        public async Task MarkTodoTaskAsInCompletedAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var todoTaskForStatusUpdate = await _todoTaskRepository.GetTodoTaskByIdAsync(id, cancellationToken);
+
+            if (todoTaskForStatusUpdate == null)
+            {
+                throw new NullReferenceException(nameof(todoTaskForStatusUpdate));
+            }
+            if (todoTaskForStatusUpdate.IsDone is false)
+            {
+                throw new TodoTaskException($"Cannot update status for task {todoTaskForStatusUpdate.Title} (ID: {todoTaskForStatusUpdate.Id}) as it is already marked as incompleted.");
+            }
+
+            todoTaskForStatusUpdate.IsDone = false;
+
+            await _todoTaskRepository.UpdateAsync(todoTaskForStatusUpdate, cancellationToken);
+        }
+
+        public async Task<TodoTaskResponseDto> CreateTodoTaskAsync(Guid toEntryId, TodoTaskDtoCreateUpdateDto newTodoTaskRequest, CancellationToken cancellationToken = default)
         {
             if (newTodoTaskRequest is null)
             {
-                throw new NullReferenceException(nameof(newTodoTaskRequest));   
+                throw new NullReferenceException(nameof(newTodoTaskRequest));
             }
 
             var tempTodoTask = newTodoTaskRequest.ToTodoTask();
@@ -51,7 +69,7 @@ namespace Todo.Application.Services
 
         public async Task<TodoTaskResponseDto> DeleteTodoTaskAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var todoTaskToDelete = await _todoTaskRepository.GetTodoTaskByIdAsync(id,cancellationToken);
+            var todoTaskToDelete = await _todoTaskRepository.GetTodoTaskByIdAsync(id, cancellationToken);
 
             if (todoTaskToDelete == null)
             {
@@ -79,11 +97,11 @@ namespace Todo.Application.Services
         public async Task<TodoTaskResponseDto> UpdateTodoTaskAsync(Guid id, TodoTaskDtoCreateUpdateDto newTodoTaskRequest, CancellationToken cancellationToken = default)
         {
 
-            if(newTodoTaskRequest is null)
+            if (newTodoTaskRequest is null)
             {
                 throw new ArgumentNullException(nameof(newTodoTaskRequest));
             }
-            var todoTaskForUpdate = await _todoTaskRepository.GetTodoTaskByIdAsync(id,cancellationToken);
+            var todoTaskForUpdate = await _todoTaskRepository.GetTodoTaskByIdAsync(id, cancellationToken);
 
             if (todoTaskForUpdate == null)
             {
@@ -96,6 +114,14 @@ namespace Todo.Application.Services
             await _todoTaskRepository.UpdateAsync(todoTaskForUpdate, cancellationToken);
 
             return todoTaskForUpdate.ToTodoTasksResponseDto();
+        }
+
+        public async Task<List<TodoTaskResponseDto>> GetTodoTasksByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken = default)
+        {
+
+            var todoTasks = await _todoTaskRepository.GetTodoTasksByCategoryIdAsync(categoryId, cancellationToken);
+
+            return todoTasks.ToTodoTaskResponseDtoList();
         }
     }
 }

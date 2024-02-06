@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Todo.Middleware\Todo.Middleware.csproj" />
     <ProjectReference Include="..\..\Todo.Shared\Todo.Shared.csproj" />
   </ItemGroup>
 

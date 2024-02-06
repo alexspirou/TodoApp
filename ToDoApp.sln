@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Middleware", "Todo.Mid
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{22663B58-8E4F-486E-A73D-3EDB7008F643}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Server.UnitTests", "Tests\Todo.Server.UnitTests\Todo.Server.UnitTests.csproj", "{5552ED6F-846C-4AD1-9CB8-6D3CA5B9AB2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Server.UnitTests", "Tests\Todo.Server.UnitTests\Todo.Server.UnitTests.csproj", "{5552ED6F-846C-4AD1-9CB8-6D3CA5B9AB2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -19,9 +19,9 @@ namespace ToDo.Server.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateCategoryAsync(CategoryCreateOrUpdateDto todoEntryDto,CancellationToken cancellationToken  = default)
+        public async Task<IActionResult> CreateCategoryAsync(CategoryCreateOrUpdateDto categoryDto,CancellationToken cancellationToken  = default)
         {
-            var result = await _todoManager.CreateCategoryAsync(todoEntryDto, cancellationToken);
+            var result = await _todoManager.CreateCategoryAsync(categoryDto, cancellationToken);
 
             return Ok(result);
         } 
@@ -51,7 +51,6 @@ namespace ToDo.Server.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetCategoryById(Guid id,CancellationToken cancellationToken = default)
         {
-            id = new Guid();
 
             var result = await _todoManager.GetCategoryById(id, cancellationToken);
 

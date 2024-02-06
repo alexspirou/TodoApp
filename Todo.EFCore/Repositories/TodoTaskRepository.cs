@@ -30,6 +30,18 @@ namespace Todo.EFCore.Repositories
             return result;
         }
 
+        public async Task<List<TodoTask>> GetTodoTasksByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken = default)
+        {
+            var result =
+               await Context.TodoTask
+                .AsNoTracking()
+                .Where(tt=>tt.CategoryId == categoryId)
+                .Include(tt => tt.Comment)  
+                .ToListAsync();
+
+            return result ?? new List<TodoTask>();
+        }
+
         public async Task<TodoTask> GetTodoTaskByIdAsync(Guid id,CancellationToken cancellationToken)
         {
             var result =

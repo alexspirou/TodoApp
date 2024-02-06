@@ -7,6 +7,7 @@ namespace Todo.EFCore.Repositories
     {
         Task<TodoTask> CreateTodoTaskAsync(TodoTask comment, CancellationToken cancellationToken = default);
         Task<TodoTask> GetTodoTaskByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<List<TodoTask>> GetTodoTasksByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken = default);
         Task<List<TodoTask>> GetAllTodoTasks(CancellationToken cancellationToken = default);
     }
 }

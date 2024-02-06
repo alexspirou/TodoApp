@@ -5,5 +5,6 @@
         public const string Home = "home";
         public const string MyTasks = "my-tasks";
         public const string AddNewTask = "add-new-task";
+        public const string TodoTaskProperties = "";
     }
 }

@@ -19,9 +19,9 @@ namespace ToDo.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(Guid itemId, CommentCreateOrUpdateDto newComment,CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateComment(Guid todoTaskId, CommentCreateOrUpdateDto newComment,CancellationToken cancellationToken = default)
         {
-            var result = await _commentService.CreateCommentAsync(itemId, newComment, cancellationToken);
+            var result = await _commentService.CreateCommentAsync(todoTaskId, newComment, cancellationToken);
 
             return Ok(result);
         }
