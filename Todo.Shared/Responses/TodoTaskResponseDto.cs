@@ -4,5 +4,5 @@
                                         string Title, 
                                         bool IsDone, 
                                         DateTime Date,
-                                        List<CommentResponsetDto>? Comment);
+                                        List<CommentResponsetDto>? Comments);
 }

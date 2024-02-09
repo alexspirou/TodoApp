@@ -2,15 +2,25 @@
 @using Todo.Web.Common;
 @using Todo.Web.Services;
 @using Todo.Web.Services.Interfaces
+@using Todo.Web.State
 
-@inject ITodoEntriesService TodoEntriesService
+@inject ITodoMangerService TodoEntriesService
+@inject AppState AppState
 
 
-<div class="card">
-    <div class="card-header">
-        <p>@Category.Name</p>
-        <div>
-            <img class="image-delete" @onclick="async () =>await DeleteCategoryAsync(Category.Id)">
+<div class="todo-task-container">
+    <div class="todo-task-header">
+
+        <div class="upper-section">
+            <div class="upper-section-left">
+                <p>@Category.Name</p>
+            </div>
+            <div class="upper-section-right">
+                <img class="image-delete" @onclick="async () =>await DeleteCategoryAsync(Category)">
+            </div>
+        </div>
+        <div class="lower-section">
+            <p class="created-date"><i>Created: @Category.Date.ToShortDateString()</i></p>
         </div>
 
     </div>
@@ -19,34 +29,26 @@
     {
         @foreach (var todoTask in _todoTasks)
         {
-            <div class="todo-body">
-                <div class="todo-task-row @(IsRowExpandedDickt.ContainsKey(todoTask.Id) &&IsRowExpandedDickt[todoTask.Id] ? "expanded" : "")" for="opt-in">
-                    <div>
-                        <img class="image-circle @(todoTask.IsDone ? "done" : "")" for="opt-in" @onclick="async () =>await UpdateStatus(todoTask)">
+            <div class="todo-body @(IsRowExpandedDict.ContainsKey(todoTask.Id) &&IsRowExpandedDict[todoTask.Id] ? "expanded" : "")">
+                <div class="todo-task-row">
+                    <div class="checkbox-container">
+                        <img src="" class="image-circle @(todoTask.IsDone ? "done" : "")" for="opt-in" @onclick="async () =>await UpdateStatusAsync(todoTask)">
                     </div>
-
-                    <label class="todo-label @(todoTask.IsDone ? "done" : "")" for="opt-in">@todoTask.Title</label>
-                    <div>
-                        <img class="todo-task-properties" @onclick=" () => OnPropertyClicked(todoTask)">
+                    <div class="task-title-container">
+                        <label class="todo-label @(todoTask.IsDone ? "done" : "")">@todoTask.Title</label>
                     </div>
-                    <div>
+                    <div class="show-comments-container">
+                        <img class="todo-task-comments @(IsRowExpandedDict.ContainsKey(todoTask.Id) &&IsRowExpandedDict[todoTask.Id] ? "hide" : "")" @onclick=" () => OnArrowDownIsClickedAsync(todoTask)">
+                    </div>
+                    <div class="delete-container">
                         <img class="image-delete" @onclick="async () =>await DeleteTodoTaskAsync(todoTask)">
                     </div>
-
-                    @if (IsRowExpandedDickt.ContainsKey(todoTask.Id) && IsRowExpandedDickt[todoTask.Id])
-                    {
-                        <div>
-                            <input type="text" class="comment-input" id="commentInput" placeholder="Add Comment">
-                            <!-- Existing comments -->
-                            <!-- Assuming you have a list of existing comments for todoTask -->
-                            @foreach (var comment in todoTask.Comment)
-                            {
-                                <div>@comment</div>
-                            }
-                        </div>
-                    }
-     
                 </div>
+
+                @if (IsRowExpandedDict.ContainsKey(todoTask.Id) && IsRowExpandedDict[todoTask.Id])
+                {
+                    <CommentComponent Comments="todoTask.Comments" TodoTaskId="todoTask.Id" />
+                }
             </div>
 
         }
@@ -55,18 +57,19 @@
     {
         <p>No items available.</p>
     }
-    <p class="card-footer">Created: @Category.Date.ToShortDateString()</p>
-    <div class="add-new-task-form">
+@*     <div class="add-new-task-form">
         <form>
             <input type="text"
                    class="new-item"
-                   @bind="NewTaskName"
+                   @bind="_newTaskName"
                    placeholder="Add new task" />
             <input type="text"
                    class="new-item"
-                   @bind="Comment"
+                   @bind="_newTaskComment"
                    placeholder="Add comment" />
-            <button class="button-item" @onclick="() =>AddNewTaskAsync(Category.Id, NewTaskName ,Comment)">+</button>
+            <div>
+                <button class="button-item" @onclick="() =>AddNewTaskAsync(Category.Id, _newTaskName ,_newTaskComment)">+</button>
+            </div>
         </form>
-    </div>
+    </div> *@
 </div>

@@ -2,23 +2,21 @@
 @using Todo.Web.Common;
 @using Todo.Web.Services.Interfaces
 
-@inject ITodoEntriesService TodoEntriesService
-
+@inject ITodoMangerService TodoEntriesService
 
 <div class="sidenav">
     <ul>
         <li><a href="#" @onclick="OnHomeIsClicked">Home</a></li>
         <li>
             <a href="#" @onclick="OnMyTasksIsClicked">My Tasks</a>
-            @if (_categories != null )
+            @if (_categories != null)
             {
-                <!-- Sub-menu for "My Tasks" -->
                 <ul class="sub-menu">
                     @foreach (var category in _categories)
                     {
                         <li> <a href="" @onclick="() => OnCategorySubMenuClicked(category)"> @category.Name </a></li>
                     }
-            </ul>
+                </ul>
             }
         </li>
     </ul>

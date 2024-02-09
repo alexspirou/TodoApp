@@ -42,9 +42,9 @@ namespace Todo.Application.Services
             return commentForDelete.ToCommentRequestDto();
         }
 
-        public async Task<List<CommentResponsetDto>> GetAllCommentsAsync(CancellationToken cancellationToken)
+        public async Task<List<CommentResponsetDto>> GetAllCommentsByTodoTaskIdAsync(Guid todotTaskId, CancellationToken cancellationToken)
         {
-            var comments = await _commentRepository.GetAllCommentsAsync(cancellationToken);
+            var comments = await _commentRepository.GetAllCommentsByTodoTaskIdAsync(todotTaskId, cancellationToken);
             return comments.ToCommentRequestDtoList();
         }
 

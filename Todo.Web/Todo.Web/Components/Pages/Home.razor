@@ -3,10 +3,14 @@
 
 <PageTitle>Tasks</PageTitle>
 
-<div id="main">
-    <main>
-        <h2>Welcome to Todo App</h2>
-    </main>
+<div class="quote-container">
+    @if (randomQuotes is not null)
+    {
+        <div class="quote">
+            <p class="quote-content">@randomQuotes.content</p>
+            <p class="quote-author">- @randomQuotes.author</p>
+        </div>
+    }
 </div>
 
 

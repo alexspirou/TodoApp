@@ -1,14 +1,20 @@
 ﻿@using System.Text.Json
 @using Todo.Shared.ExtensionMethods
 @using Todo.Shared.Responses
+@using Todo.Web.Common
 @using Todo.Web.Services.Interfaces
+@using Todo.Web.State
 
-@inject ITodoEntriesService TodoEntriesService
+@inject ITodoMangerService TodoEntriesService
+@inject AppState AppState
+@inject NavigationManager NavigationManager 
 
 @page "/category/{CategoryName}/{CategoryId}"
 
 @if (Category is not null)
 {
+    <PageTitle>@Category.Name </PageTitle>
+
     <CategoryComponent Category="Category" OnDeleteCategoryClicked="OnCategoryDeleteEventHandler" />
 }
 else
@@ -19,8 +25,8 @@ else
 
 @code
 {
-    [Parameter] public string CategoryName { get; set; } = default!;
-    [Parameter] public string CategoryId { get; set; }
+    [Parameter] public string CategoryName { get; set; } = null!;
+    [Parameter] public string CategoryId { get; set; } = null!;
     [Parameter] public CategoryResponseDto? Category { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -28,10 +34,12 @@ else
         Category = await TodoEntriesService.GetCategoryByIdAsync(CategoryId.ToGuid());
     }
 
-    private async Task OnCategoryDeleteEventHandler()
+    private void OnCategoryDeleteEventHandler()
     {
         Category = null;
         StateHasChanged();
+        NavigationManager.NavigateTo(NavigationRoutes.MyCategories);
     }
+
 
 }

@@ -3,20 +3,26 @@ using System.Text.Json;
 using Todo.Shared.Requests;
 using Todo.Shared.Responses;
 using Todo.Web.Common;
+using Todo.Web.State;
 
 namespace Todo.Web.Components.Pages
 {
-    public partial class CatergoriesTaskView
+    public partial class CategoryListView
     {
         private List<CategoryResponseDto>? _categories;
 
         protected override async Task OnInitializedAsync()
         {
-            await UpdateCategoriesList();
+            await AppState.RefreshCategories();
+            _categories = AppState.Categories;
+            AppState.CategoryChangedEvent += UpdateCategoriesList;
         }
-        public async Task UpdateCategoriesList()
+        public void UpdateCategoriesList()
         {
-            _categories = await TodoEntriesService.GetAllTodoEntriesAsync();
+            _categories = AppState.Categories;
+            StateHasChanged();
         }
+
+
     }
 }

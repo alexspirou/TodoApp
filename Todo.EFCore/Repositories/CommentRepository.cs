@@ -19,9 +19,12 @@ namespace Todo.EFCore.Repositories
             return comment;
         }
 
-        public async Task<List<Comment>> GetAllCommentsAsync(CancellationToken cancellationToken)
+        public async Task<List<Comment>> GetAllCommentsByTodoTaskIdAsync(Guid todotTaskId, CancellationToken cancellationToken)
         {
-            var result = await Context.Comment.ToListAsync(cancellationToken);
+            var result = await Context.Comment
+                .AsNoTracking()
+                .Where(c => c.ItemId == todotTaskId)
+                .ToListAsync(cancellationToken);
 
             return result;
         }

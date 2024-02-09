@@ -22,6 +22,7 @@ body {
     font-size: 1.5rem;
     background-color: var(--clr-primary);
     background: linear-gradient(90deg, rgba(51,42,42,1) 19%, rgba(72,26,147,1) 57%);
+    overflow: hidden;
 }
 
 .title {
@@ -30,16 +31,50 @@ body {
     font-size: large;
 }
 
-
-
 a {
     text-decoration: none
 }
 
+.page {
+    display: flex;
+    position: sticky;
+    top: 0;
+    height: 100vw;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex: 1 1 15%;
+}
+
+.sidebar-toggle-button {
+    display: none; /* Hide the sidebar toggle button by default */
+}
+
+/* Media query for mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none; /* Hide the sidebar on mobile */
+
+    }
+    body {
+        font-size: 0.8rem; /* Change font size for mobile devices */
+    }
+
+    .sidebar-toggle-button {
+        display: flex;
+        height: 5vh;
+        width : 5vh;
+        flex: 0 1 5%;
+    }
+}
+
 #header {
-    width: 100%;
     text-align: center;
-    font-weight: 900;
     color: rgba(0,0,0, 0.3);
     letter-spacing: 2px;
     display: flex;
@@ -47,129 +82,356 @@ a {
     background: black;
     color: white;
     cursor: pointer;
-    position: sticky;
-    top: 0;
-    z-index: 999;
 }
 
 .sidenav {
-    width: 15%;
-    height: 100vh;
-    float: left;
     background: linear-gradient(90deg, rgba(51,42,42,1) 14%, rgba(18,22,24,1) 90%);
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: normal;
-    position: sticky;
-    top: 0;
-    z-index: 998;
+    height: 100vh;
+    overflow: auto;
 }
 
     .sidenav ul a {
-        display: block;
-        height: 100%;
-        width: 100%;
         line-height: 65px;
         font-size: 20px;
         color: white;
         box-sizing: border-box;
+        transition: color 0.3s; /* Add transition for color change */
     }
 
-    .sidenav a:hover {
-        text-decoration: underline;
-        padding-left: 2px;
-    }
-
-        .sidenav a:hover::after {
-            width: 100%;
-            transition-delay: 0.3s; /* Add a delay to the transition */
+        .sidenav ul a:hover {
+            padding-left: 2px;
+            color: mediumpurple; /* Change font color to purple on hover */
         }
 
-}
+            .sidenav ul a:hover::after {
+                width: 100%;
+                transition-delay: 0.3s; /* Add a delay to the transition */
+            }
 
 .sub-menu li:hover::after {
     width: 100%;
     transition-delay: 0.3s; /* Add a delay to the transition */
 }
 
-
-.todoContainer {
+.content {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1 1 85%;
 }
 
+/*Card header*/
 
-.card-header {
+.todo-task-header {
     border: 1px solid #ccc;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
 }
 
-.card {
+.upper-section {
+    display: flex;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.upper-section-left {
+    display: flex;
+    flex: 1 1 50%;
+}
+
+.upper-section-right {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 50%;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.lower-section {
+    display: flex;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.created-date {
+    font-size: 15px;
+}
+
+/*Card header*/
+
+.todo-task-container {
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 10px;
-    margin: 20px;
+    margin: 1.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    min-width: 80vw;
 }
 
 .todo-body {
-    height: 20vw;
+    display: flex;
+    flex-direction: column;
 }
+
+    .todo-body.expanded {
+        min-height: 20vw;
+    }
+
+/*todo-task-row*/
 
 .todo-task-row {
     border: 1px solid #ccc;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     border-radius: 5px;
     background-color: #fff;
 }
 
-.todo-task-row.expanded {
-    height: 20vw;
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 10%;
+    justify-content: center;
+    margin-left: 1rem;
 }
 
+.task-title-container {
+    display: flex;
+    flex: 1 1 25%;
+}
+
+.show-comments-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 10%;
+    justify-content: center;
+}
+
+.delete-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 10%;
+    justify-content: center;
+    align-items: flex-end;
+    margin-right: 1rem;
+}
+
+/*todo-task-row*/
 
 
-.comment-input {
-    margin-bottom: 10px;
+
+/*images*/
+
+
+.todo-task-comments {
+    width: 1rem;
+    height: 1rem;
+    background-image: url(Media/arrow-down.png);
+    background-size: cover;
+    cursor: pointer;
+    padding: 1rem;
+}
+.image-delete,
+.image-edit,
+.image-cancel,
+.image-save,
+.image-circle {
+    width: 1rem;
+    height: 1rem;
+    padding: 1rem;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+    transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
 }
 
 .image-circle {
-    padding: 1vw;
-    margin-left: 2vw;
-    margin-top: 1vw;
-    background-image: url(Media/circle.png);
-    background-size: cover;
-    cursor: pointer;
-    margin-bottom: 10px;
-    align-content: flex-end;
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0.8rem; 
+    border-radius: 50%;
 }
 
-    .image-circle.done {
-        background-image: url(Media/done.png);
+/* Set background images for each class */
+.image-delete {
+    background-image: url(Media/delete.png);
+}
+
+.image-edit {
+    background-image: url(Media/edit.png);
+}
+
+.image-cancel {
+    background-image: url(Media/cancel.png);
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0.6rem;
+    border-radius: 5px;
+}
+
+.image-save {
+    background-image: url(Media/save.png);
+}
+
+.image-circle {
+    background-image: url(Media/circle.png);
+}
+
+    /* Hover effect for all images */
+    .image-delete:hover,
+    .image-edit:hover,
+    .image-cancel:hover,
+    .image-save:hover,
+    .image-circle:hover {
+        background-color: mediumpurple; /* Darken the background color on hover */
     }
+/*images*/
+
+
+
+
+/*comment section body*/
+.comment-section-body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.existing-comment-container {
+    display: flex;
+    margin-top: 2rem;
+}
+
+.comment-content-container {
+    display: flex;
+    flex: 0 1 50%;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.existing-comment-content {
+}
+
+.image-edit-container {
+    display: flex;
+    margin-left: 0.5rem;
+    flex: 0 1 2%;
+    align-items: center;
+    justify-content: left;
+}
+
+.image-edit-container .image-edit {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0.6rem;
+}
+
+.image-delete-container {
+    display: flex;
+    flex: 0 1 1%;
+    align-items: center;
+    justify-content: left;
+}
+
+.image-delete-container .image-delete {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0.6rem;
+}
+/* edit comment*/
+
+.image-save-container {
+    display: flex;
+    flex: 0 1 2%;
+    align-items: center;
+    justify-content: left;
+    margin-left: 0.5rem;
+}
+
+.image-save-container .image-save {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0.6rem;
+}
+
+.image-cancel-container {
+    display: flex;
+    flex: 0 1 1%;
+    align-items: center;
+    justify-content: left;
+}
+
+
+
+/* edit comment*/
+/*comment section body*/
+
+
+.new-comment-container {
+    display: flex;
+    margin-top : 2rem;
+}
+
+.input-add-new-comment-container {
+    display: flex;
+    flex: 0 1 50%;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+}
+    .input-add-new-comment-container input {
+        border: none; /* Remove border to avoid double border */
+        width: 100%; /* Set width to 100% to fill the container */
+    }
+
+.button-save-comment-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-left: 0.5rem; /* Add some spacing between input and button */
+}
+
+.button-save {
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    padding: 0.5rem 1rem; 
+    border: none; 
+    cursor: pointer; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.button-save:hover {
+    background-color: #333; /* Darken the background color on hover */
+    color: mediumpurple
+}
+
+
+
+
+
+
+.image-circle.done {
+    background-image: url(Media/done.png);
+}
 
 .todo-label {
     padding: 1vw;
-    margin-left: 0px;
     color: red;
     cursor: pointer;
     color: black;
     font-size: 18px;
-    min-width: 350px;
 }
 
     .todo-label.done {
         text-decoration: line-through;
-        color: gray;
+        color: dimgrey;
     }
 
 
@@ -179,38 +441,23 @@ a {
 
 
 
-.image-delete {
-    padding: 1vw;
-    background-image: url(Media/delete.png);
-    background-size: cover;
-    margin-right: 10px;
-    cursor: pointer;
-}
 
-.todo-task-properties {
-    padding: 1vw;
-    background-image: url(Media/properties.png);
-    background-size: cover;
-    margin-right: 10px;
-    cursor: pointer;
+
+
+.todo-task-comments.hide {
+    background-image: url(Media/arrow-up.png);
+    padding: 0.75vw;
 }
 
 
-.card-footer {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px; /* Adjust the padding according to your design */
-    background-color: deepskyblue;
-    font-size: 15px;
-    margin-top: auto; /* Push the .card-footer to the end of the container */
-}
+
 
 .add-new-task-form {
     padding: 1px;
 }
 
 h2 {
-    color: #333;
+    color: white;
     margin-bottom: 5px;
 }
 
@@ -248,3 +495,30 @@ p {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+
+.quote-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.quote {
+    max-width: 80%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.quote-content {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.quote-author {
+    font-style: italic;
+    color: #888;
+}

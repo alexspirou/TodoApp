@@ -34,12 +34,13 @@ namespace ToDo.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCommentsAsync(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllCommentsByTodoTaskIdAsync(Guid todotTaskId,CancellationToken cancellationToken = default)
         {
-            var result = await _commentService.GetAllCommentsAsync(cancellationToken);
+            var result = await _commentService.GetAllCommentsByTodoTaskIdAsync(todotTaskId,cancellationToken);
 
             return Ok(result);
-        }
+        }        
+        
 
         [HttpDelete]
         public async Task<IActionResult> DeleteCommentAsync(Guid id, CancellationToken cancellationToken = default)

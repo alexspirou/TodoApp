@@ -7,6 +7,6 @@ namespace Todo.EFCore.Repositories.Interfaces
     {
         Task<Comment> CreateCommentAsync(Comment comment, CancellationToken cancellationToken);
         Task<Comment> GetCommentByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<List<Comment>> GetAllCommentsAsync(CancellationToken cancellationToken);
+        Task<List<Comment>> GetAllCommentsByTodoTaskIdAsync(Guid todoTaskId,CancellationToken cancellationToken);
     }
 }

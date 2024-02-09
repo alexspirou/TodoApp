@@ -3,89 +3,60 @@ using System.Text.Json;
 using Todo.Shared.Requests;
 using Todo.Shared.Responses;
 using Microsoft.JSInterop;
+using Todo.Web.Components.Layout;
+using Todo.Web.State;
 
 namespace Todo.Web.Components
 {
     public partial class CategoryComponent
     {
         [Parameter]
-        public CategoryResponseDto Category { get; set; }
+        public CategoryResponseDto Category { get; set; } = null!;
         [Parameter]
         public EventCallback OnDeleteCategoryClicked { get; set; }
+
+        // Gets a reference to the MainLayout component
+        [CascadingParameter]
+        public MainLayout Layout { get; set; }
+
         private List<TodoTaskResponseDto>? _todoTasks { get; set; }
+        private Dictionary<Guid, bool> IsRowExpandedDict = new();
+        private string? _newTaskName { get; set; }
+        private string? _newTaskComment { get; set; }
 
-
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private IJSRuntime JavaScriptProperty { get; set; } = null!;
-
-
-        private Dictionary<Guid, bool> IsRowExpandedDickt = new();
-        private bool _isRowExpanded = false;
-        private string? NewTaskName { get; set; }
-        private string? Comment { get; set; }
-
-
-        protected async Task OnPropertyClicked(TodoTaskResponseDto todoTask)
-        {
-
-            IsRowExpandedDickt[todoTask.Id] = !IsRowExpandedDickt[todoTask.Id];
-
-            await UpdateTodoTasks();
-
-
-        }
 
         protected override async Task OnInitializedAsync()
         {
             await UpdateTodoTasks();
         }
-        protected async Task DeleteTodoTaskAsync(TodoTaskResponseDto todoTask)
+
+        private async Task OnArrowDownIsClickedAsync(TodoTaskResponseDto todoTask)
+        {
+            IsRowExpandedDict[todoTask.Id] = !IsRowExpandedDict[todoTask.Id];
+            await UpdateTodoTasks();
+        }
+
+        private async Task DeleteTodoTaskAsync(TodoTaskResponseDto todoTask)
         {
             await TodoEntriesService.DeleteTodoTaskAsync(todoTask);
 
-            if (IsRowExpandedDickt.ContainsKey(todoTask.Id))
+            if (IsRowExpandedDict.ContainsKey(todoTask.Id))
             {
-                IsRowExpandedDickt.Remove(todoTask.Id);
+                IsRowExpandedDict.Remove(todoTask.Id);
             }
             await UpdateTodoTasks();
 
         }
 
-        private async Task UpdateTodoTasks()
+        private async Task DeleteCategoryAsync(CategoryResponseDto category)
         {
-            if (Category is null)
-            {
-                return;
-            }
-            _todoTasks = await TodoEntriesService.GetTodoTasksByCategoryIdAsync(Category.Id);
-
-
-            foreach (var todoTask in _todoTasks)
-            {
-                if (IsRowExpandedDickt.ContainsKey(todoTask.Id))
-                {
-                    continue;
-                }
-                IsRowExpandedDickt.Add(todoTask.Id, false);
-            }
-        }
-
-        protected async Task DeleteCategoryAsync(Guid id)
-        {
-            await TodoEntriesService.DeleteCategoryAsync(id);
-            await OnDeleteCategoryClicked.InvokeAsync();
-
+            await TodoEntriesService.DeleteCategoryAsync(category.Id);
+            AppState.RemoveCategory(category.Id);
+            AppState.RaiseCategoryChangedEvent();
             await UpdateTodoTasks();
         }
 
-
-        protected void OnPropertiesClick(TodoTaskResponseDto todoTask)
-        {
-            var url = $"todo-task-properties/todo-task/{todoTask?.Title.Trim()}/{JsonSerializer.Serialize(todoTask)}";
-            NavigationManager.NavigateTo(url);
-        }
-
-        protected async Task UpdateStatus(TodoTaskResponseDto todoTask)
+        private async Task UpdateStatusAsync(TodoTaskResponseDto todoTask)
         {
             if (todoTask.IsDone)
             {
@@ -93,13 +64,11 @@ namespace Todo.Web.Components
             }
             else
             {
-
                 await TodoEntriesService.MarkTodoTaskAsCompletedAsync(todoTask.Id);
             }
             await UpdateTodoTasks();
 
         }
-
 
         private async Task AddNewTaskAsync(Guid categoryId, string taskName, string? comment, CancellationToken cancellationToken = default)
         {
@@ -109,7 +78,7 @@ namespace Todo.Web.Components
             }
             var tempTaks = new TodoTaskDtoCreateUpdateDto(taskName, false);
 
-            var toDoTaskId = await TodoEntriesService.AddNewTaskAsync(categoryId, tempTaks, cancellationToken);
+            var toDoTaskId = await TodoEntriesService.AddNewTodoTaskAsync(categoryId, tempTaks, cancellationToken);
             if (comment is not null)
             {
                 await TodoEntriesService.AddNewCommentAsync(toDoTaskId, new CommentCreateOrUpdateDto(comment), cancellationToken);
@@ -117,5 +86,25 @@ namespace Todo.Web.Components
             await UpdateTodoTasks();
 
         }
+
+        private async Task UpdateTodoTasks()
+        {
+            if (Category is null)
+            {
+                throw new Exception("Category must not be null");
+            }
+            _todoTasks = await TodoEntriesService.GetTodoTasksByCategoryIdAsync(Category.Id);
+
+
+            foreach (var todoTask in _todoTasks)
+            {
+                if (IsRowExpandedDict.ContainsKey(todoTask.Id))
+                {
+                    continue;
+                }
+                IsRowExpandedDict.Add(todoTask.Id, false);
+            }
+        }
+
     }
 }

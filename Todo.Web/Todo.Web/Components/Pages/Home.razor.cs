@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Todo.Shared.Responses;
+using static QuoteService;
 
 namespace Todo.Web.Components.Pages
 {
     public partial class Home : ComponentBase
     {
-        private List<CategoryResponseDto>? _todoEntries { get; set; }
+        [Inject] QuoteService QuoteService { get; set; } = null!;
+
+
+        private Quote? randomQuotes { get; set; }
 
 
 
         protected override async Task OnInitializedAsync()
         {
-
-            int a = 0;
+            randomQuotes = await QuoteService.GetRandomQuoteAsync();
         }
 
     }

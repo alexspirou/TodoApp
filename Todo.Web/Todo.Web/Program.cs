@@ -2,6 +2,7 @@ using Todo.Middleware;
 using Todo.Web.Components;
 using Todo.Web.Services;
 using Todo.Web.Services.Interfaces;
+using Todo.Web.State;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +12,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<AppState>();
+builder.Services.AddScoped<QuoteService>();
 
- builder.Services.AddScoped<ITodoEntriesService, TodoEntriesServices>();
+builder.Services.AddScoped<ITodoMangerService, TodoManagerService>();
 
 builder.Services.AddRazorPages()
  .AddRazorPagesOptions(options => {

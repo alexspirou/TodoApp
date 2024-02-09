@@ -1,0 +1,52 @@
+﻿@using Todo.Shared.Responses
+@using Todo.Web.Common;
+@using Todo.Web.Services;
+@using Todo.Web.Services.Interfaces
+
+@inject ITodoMangerService TodoEntriesService
+
+<div class="comment-section-body">
+
+
+    @foreach (var comment in Comments)
+    {
+        <div class="existing-comment-container">
+            @if (!_isEditing)
+            {
+                <div class="comment-content-container">
+                    <label class="existing-comment-content">@comment.Content</label>
+                </div>
+                <div class="image-edit-container">
+                    <img class="image-edit" @onclick="() => ToggleEdit(comment)">
+                </div>
+                <div class="image-delete-container">
+                    <img class="image-delete" @onclick="() => DeleteComment(comment.Id)">
+
+                </div>
+
+            }
+            else
+            {
+                <div class="comment-content-container">
+                    <label class="existing-comment-content">@comment.Content</label>
+                </div>
+                <div class="image-save-container">
+                    <img class="image-save" @onclick="() => SaveEdit(comment.Id, _bindingCommentDict[comment.Id])">
+                </div>
+                <div class="image-cancel-container">
+                    <img class="image-cancel" @onclick="() => CancelEdit(comment)">
+
+                </div>
+            }
+        </div>
+    }
+    <div class="new-comment-container">
+        <div class="input-add-new-comment-container">
+            <input placeholder="Add Comment" @bind="_newComment">
+        </div>
+        <div class="button-save-comment-container">
+            <button class="button-save" @onclick="() => Save(_newComment)">Save</button>
+        </div>
+    </div>
+
+</div>
