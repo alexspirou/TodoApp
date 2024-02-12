@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json;
 using Todo.Shared.Requests;
 using Todo.Shared.Responses;
-using Microsoft.JSInterop;
-using Todo.Web.Components.Layout;
-using Todo.Web.State;
+using Todo.Web.Layout;
 
 namespace Todo.Web.Components
 {

@@ -1,5 +1,8 @@
 ﻿@page "/"
 @page "/home"
+@using Todo.Web.Services
+@using static Todo.Web.Services.QuoteService
+@inject QuoteService QuoteService;
 
 <PageTitle>Tasks</PageTitle>
 
@@ -14,3 +17,13 @@
 </div>
 
 
+@code
+{
+    private Quote? randomQuotes { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        randomQuotes = await QuoteService.GetRandomQuoteAsync();
+    }
+
+}

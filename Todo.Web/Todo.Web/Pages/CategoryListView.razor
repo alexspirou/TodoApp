@@ -1,0 +1,46 @@
+﻿@using Todo.Shared.Responses
+@using Todo.Web.Common;
+@using Todo.Web.Services;
+@using Todo.Web.Services.Interfaces
+@using Todo.Web.Components;
+
+@inject ITodoMangerService TodoEntriesService
+@inject AppState AppState
+
+@page "/my-categories"
+
+@* @attribute [Route(NavigationRoutes.MyCategories)]
+ *@
+@* @rendermode InteractiveServer
+ *@
+<PageTitle>My Tasks</PageTitle>
+
+@if (_categories != null && _categories.Any())
+{
+    @foreach (var category in _categories)
+    {
+        <CategoryComponent Category="category" />
+    }
+}
+else
+{
+    <p class="no-entries">No TODO entries available.</p>
+}
+
+@code
+{
+    private List<CategoryResponseDto>? _categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AppState.RefreshCategories();
+        _categories = AppState.Categories;
+        AppState.CategoryChangedEvent += UpdateCategoriesList;
+    }
+    public void UpdateCategoriesList()
+    {
+        _categories = AppState.Categories;
+        StateHasChanged();
+    }
+}
+

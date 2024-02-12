@@ -6,15 +6,15 @@
 
 <div class="sidenav">
     <ul>
-        <li><a href="#" @onclick="OnHomeIsClicked">Home</a></li>
+        <li><a @onclick="OnHomeIsClicked">Home</a></li>
         <li>
-            <a href="#" @onclick="OnMyTasksIsClicked">My Tasks</a>
+            <a @onclick="OnMyTasksIsClicked">My Tasks</a>
             @if (_categories != null)
             {
                 <ul class="sub-menu">
                     @foreach (var category in _categories)
                     {
-                        <li> <a href="" @onclick="() => OnCategorySubMenuClicked(category)"> @category.Name </a></li>
+                        <li> <a  @onclick="() => OnCategorySubMenuClicked(category)"> @category.Name </a></li>
                     }
                 </ul>
             }

@@ -2,7 +2,9 @@
 @using Todo.Web.Common;
 @using Todo.Web.Services;
 @using Todo.Web.Services.Interfaces
-@using Todo.Web.State
+
+@namespace Todo.Web.Components
+
 
 @inject ITodoMangerService TodoEntriesService
 @inject AppState AppState
@@ -38,7 +40,7 @@
                         <label class="todo-label @(todoTask.IsDone ? "done" : "")">@todoTask.Title</label>
                     </div>
                     <div class="show-comments-container">
-                        <img class="todo-task-comments @(IsRowExpandedDict.ContainsKey(todoTask.Id) &&IsRowExpandedDict[todoTask.Id] ? "hide" : "")" @onclick=" () => OnArrowDownIsClickedAsync(todoTask)">
+                        <img class="image-arrow @(IsRowExpandedDict.ContainsKey(todoTask.Id) &&IsRowExpandedDict[todoTask.Id] ? "up" : "")" @onclick=" () => OnArrowDownIsClickedAsync(todoTask)">
                     </div>
                     <div class="delete-container">
                         <img class="image-delete" @onclick="async () =>await DeleteTodoTaskAsync(todoTask)">
@@ -57,7 +59,7 @@
     {
         <p>No items available.</p>
     }
-@*     <div class="add-new-task-form">
+    <div class="add-new-task-form">
         <form>
             <input type="text"
                    class="new-item"
@@ -71,5 +73,5 @@
                 <button class="button-item" @onclick="() =>AddNewTaskAsync(Category.Id, _newTaskName ,_newTaskComment)">+</button>
             </div>
         </form>
-    </div> *@
+    </div>
 </div>

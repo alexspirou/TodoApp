@@ -2,8 +2,9 @@
 @using Todo.Shared.ExtensionMethods
 @using Todo.Shared.Responses
 @using Todo.Web.Common
+@using Todo.Web.Services
 @using Todo.Web.Services.Interfaces
-@using Todo.Web.State
+@using Todo.Web.Components;
 
 @inject ITodoMangerService TodoEntriesService
 @inject AppState AppState
@@ -38,8 +39,6 @@ else
     {
         Category = null;
         StateHasChanged();
-        NavigationManager.NavigateTo(NavigationRoutes.MyCategories);
+        // NavigationManager.NavigateTo(NavigationRoutes.MyCategories);
     }
-
-
 }

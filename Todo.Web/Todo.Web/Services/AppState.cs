@@ -2,7 +2,7 @@
 using Todo.Shared.Responses;
 using Todo.Web.Services.Interfaces;
 
-namespace Todo.Web.State
+namespace Todo.Web.Services
 {
 
     public class AppState
@@ -28,7 +28,7 @@ namespace Todo.Web.State
             Categories = await _todoMangerService.GetAllCategories();
         }
 
-        public void RemoveCategory(Guid categoryId) 
+        public void RemoveCategory(Guid categoryId)
         {
             var categoryToRemove = Categories?.FirstOrDefault(category => category.Id == categoryId);
 

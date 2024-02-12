@@ -1,0 +1,47 @@
+﻿@using Todo.Shared.Responses;
+@using Todo.Web.Common
+
+@inherits LayoutComponentBase
+
+
+<CascadingValue Value="this">
+    <div class="page">
+
+        <img class="sidebar-toggle-image" @onclick="OnClickedSideBarToggle">
+
+
+        <div class="sidebar @(LayoutVisibilitySettings.IsSideBarShown ? "show" : "")">
+            <div>
+                <Header></Header>
+            </div>
+            <div>
+                <NavMenu OnMenuOptionIsClicked="OnMenuIsClickedHandler"> </NavMenu>
+            </div>
+        </div>
+
+        <div class="content @(LayoutVisibilitySettings.IsContentHidden ? "hide" : "")">
+            @Body
+        </div>
+
+    </div>
+</CascadingValue>
+
+@code
+{
+
+
+    [CascadingParameter]
+    public LayoutVisibilitySettings LayoutVisibilitySettings { get; set; } = new();
+
+    private void OnClickedSideBarToggle()
+    {
+        LayoutVisibilitySettings.IsContentHidden = !LayoutVisibilitySettings.IsContentHidden;
+        LayoutVisibilitySettings.IsSideBarShown = !LayoutVisibilitySettings.IsSideBarShown;
+        LayoutVisibilitySettings.IsToggleImageShown = !LayoutVisibilitySettings.IsToggleImageShown;
+    }
+    private void OnMenuIsClickedHandler()
+    {
+        StateHasChanged();
+    }
+
+}

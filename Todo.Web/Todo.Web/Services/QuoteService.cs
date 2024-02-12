@@ -1,8 +1,6 @@
-﻿using System;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
+namespace Todo.Web.Services;
 public class QuoteService
 {
     private readonly HttpClient _httpClient;

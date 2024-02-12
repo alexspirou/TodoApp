@@ -1,49 +1,21 @@
-using Todo.Middleware;
-using Todo.Web.Components;
-using Todo.Web.Services;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Todo.Web;
 using Todo.Web.Services.Interfaces;
-using Todo.Web.State;
+using Todo.Web.Services;
+using Todo.Web.Common;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents()
-    .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient();
 builder.Services.AddScoped<AppState>();
 builder.Services.AddScoped<QuoteService>();
-
 builder.Services.AddScoped<ITodoMangerService, TodoManagerService>();
 
-builder.Services.AddRazorPages()
- .AddRazorPagesOptions(options => {
-     options.RootDirectory = "/home";
- });
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
 
-var app = builder.Build();
-app.UseMiddleware<ExceptionMiddleware>();
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-app.UseHttpsRedirection();
+await builder.Build().RunAsync();
 
-app.UseStaticFiles();
-app.UseAntiforgery();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddInteractiveServerRenderMode();
-
-
-app.Run();

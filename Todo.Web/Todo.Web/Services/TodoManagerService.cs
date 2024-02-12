@@ -1,4 +1,5 @@
-﻿using Todo.Shared.Requests;
+﻿using System.Net.Http.Json;
+using Todo.Shared.Requests;
 using Todo.Shared.Responses;
 using Todo.Web.Services.Interfaces;
 
@@ -48,7 +49,7 @@ namespace Todo.Web.Services
             var catgory = await _httpClient.GetFromJsonAsync<CategoryResponseDto>(apiCall, cancellationToken);
 
             return catgory;
-        } 
+        }
         #endregion
 
         #region TodoTasks
@@ -92,7 +93,7 @@ namespace Todo.Web.Services
         {
             var apiCall = $@"https://localhost:7055/api/TodoTask/v1/DeleteTodoTask?id={todoTask.Id}";
             await _httpClient.DeleteFromJsonAsync<TodoTaskResponseDto>(apiCall, cancellationToken);
-        } 
+        }
         #endregion
 
         #region Comments
@@ -123,7 +124,7 @@ namespace Todo.Web.Services
         {
             var apiCall = $@"{_host}/api/Comment/v1/DeleteComment?id={commentId}";
             await _httpClient.DeleteFromJsonAsync<CommentResponsetDto>(apiCall, cancellationToken);
-        } 
+        }
         #endregion
 
     }
